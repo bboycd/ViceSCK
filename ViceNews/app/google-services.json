@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "728766558314",
+    "firebase_url": "https://vicenews-a40fd.firebaseio.com",
+    "project_id": "vicenews-a40fd",
+    "storage_bucket": "vicenews-a40fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:728766558314:android:28f34b0c23a21271",
+        "android_client_info": {
+          "package_name": "com.example.bboyc.vicenews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "728766558314-vrfrrde7beu9h212rv2hrjo3cjfa64ap.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPoGpv1wBx7FtZvTbVVir_ruqHnscsMiw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
