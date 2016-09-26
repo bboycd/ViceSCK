@@ -1,10 +1,17 @@
 package com.example.sungwon.vicenews;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+
+    public static final int NOTIFICATION = 1;
 
 
     /**
@@ -66,6 +75,28 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
       
     }
+
+    //NOTIFICATION
+    private void bigPictureNotification (){
+    NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+    bigPictureStyle.bigPicture(BitmapFactory.decodeResource(getResources(),R.drawable.multi)).build();
+
+    Intent intent = new Intent(this, MainActivity.class);
+
+    PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+    NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+    builder.setSmallIcon(R.drawable.fire);
+    builder.setContentTitle("title");
+    builder.setContentText("description");
+    builder.setAutoCancel(true);
+    builder.setStyle(bigPictureStyle);
+    builder.setContentIntent(pendingIntent);
+    builder.setPriority(Notification.PRIORITY_MAX);
+    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+    manager.notify(NOTIFICATION, builder.build());
+    }
+
+
 
 
     @Override
