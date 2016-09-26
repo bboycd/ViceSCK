@@ -15,10 +15,18 @@ public class DetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_share);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab_share = (FloatingActionButton) findViewById(R.id.fab_share);
+        fab_share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            }
+        });
+
+        FloatingActionButton fab_readLater = (FloatingActionButton) findViewById(R.id.fab_readLater);
+        fab_readLater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
