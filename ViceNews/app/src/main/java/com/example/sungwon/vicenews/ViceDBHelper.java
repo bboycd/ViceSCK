@@ -75,12 +75,21 @@ public class ViceDBHelper extends SQLiteOpenHelper{
         int rowsDeleted = db.delete(DATABASE_TABLE_NAME,null,null);
         return rowsDeleted;
     }
-    public Cursor getArticles() {
+    public Cursor getArticles(String selection, String[] selectionArgs) {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.query(DATABASE_TABLE_NAME,VICENEWS_COLUMNS,null,null,null,null,null);
+        Cursor cursor = db.query(DATABASE_TABLE_NAME,VICENEWS_COLUMNS,selection,selectionArgs,null,null,null);
         DatabaseUtils.dumpCursor(cursor);
         return cursor;
     }
+
+    public Cursor getArticlesById(String id){
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.query(DATABASE_TABLE_NAME,VICENEWS_COLUMNS,VICENEWS_COLUMN_ID +" = ?", new String[]{id}, null, null, null);
+
+        return cursor;
+    }
+
     //cursor for searching News Article
     public Cursor searchArticles(String query){
         SQLiteDatabase db = this.getReadableDatabase();
