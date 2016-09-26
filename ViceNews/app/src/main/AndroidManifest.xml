@@ -31,6 +31,13 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
+
+        <provider
+            android:name=".NewsContentProvider"
+            android:authorities="com.example.sungwon.vicenews.NewsContentProvider"
+            android:label="my provider"
+            android:exported="false"
+            android:syncable="true"/>
     </application>
 
 </manifest>
