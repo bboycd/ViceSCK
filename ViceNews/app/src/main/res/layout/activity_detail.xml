@@ -22,6 +22,17 @@
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            <ImageView
+                android:id="@+id/imageView_Detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/multi"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                />
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -43,7 +54,9 @@
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/facebook"
-        app:backgroundTint="?android:attr/colorEdgeEffect"
-        app:elevation="10dp" />
+        app:elevation="10dp"
+        app:backgroundTint="#3b5998"
+        app:rippleColor="?android:attr/colorAccent"
+        app:fabSize="mini" />
 
 </android.support.design.widget.CoordinatorLayout>
