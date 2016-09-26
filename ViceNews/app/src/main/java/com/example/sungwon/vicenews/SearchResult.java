@@ -17,7 +17,7 @@ public class SearchResult {
 
     @Override
     public String toString() {
-        return "SearchResult{" + data.getItems +
+        return "SearchResult{" + data.getItems() +
                 '}';
     }
 }
