@@ -96,3 +96,13 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+-*.iml
+-.gradle
+-/local.properties
+-/.idea/workspace.xml
+-/.idea/libraries
+-.DS_Store
+-/build
+-/captures
+-.externalNativeBuild
