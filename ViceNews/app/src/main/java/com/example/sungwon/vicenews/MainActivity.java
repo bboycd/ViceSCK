@@ -55,11 +55,11 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO RECYCLER VIEW SETTINGS
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
+//        recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+//        recyclerView.setLayoutManager(layoutManager);
 //        adapter = new RecyclerViewAdapter(dataSet);
-        recyclerView.setAdapter(adapter);
+//        recyclerView.setAdapter(adapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
