@@ -40,9 +40,6 @@ import static com.example.sungwon.vicenews.R.id.recyclerView;
 public class MainActivity extends AppCompatActivity {
 
 
-
-
-
     private static final String TAG = MainActivity.class.getName();
     public static final String AUTHORITY = "com.example.sungwon.vicenews.NewsContentProvider";
     public static final String ACCOUNT_TYPE = "example.com";
