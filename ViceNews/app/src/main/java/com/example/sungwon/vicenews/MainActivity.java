@@ -1,5 +1,6 @@
 package com.example.sungwon.vicenews;
 
+import android.accounts.Account;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -29,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+
+    public static final String AUTHORITY = "com.example.sungwon.vicenews.NewsContentProvider";
+    public static final String ACCOUNT_TYPE = "example.com";
+    public static final String ACCOUNT = "default_account";
+
+    Account mAccount;
 
     public static final int NOTIFICATION = 1;
 
