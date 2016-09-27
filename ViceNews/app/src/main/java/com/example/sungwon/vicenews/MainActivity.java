@@ -56,11 +56,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         //TODO RECYCLER VIEW SETTINGS
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 //        adapter = new RecyclerViewAdapter(dataSet);
+
 //        recyclerView.setAdapter(adapter);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -153,11 +155,11 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Top";
                 case 1:
-                    return "SECTION 2";
+                    return "Recent";
                 case 2:
-                    return "SECTION 3";
+                    return "Favorite";
             }
             return null;
         }
@@ -193,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            textView.setText("Hi");
             return rootView;
         }
     }
