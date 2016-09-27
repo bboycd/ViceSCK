@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     tools:context="com.example.sungwon.vicenews.MainActivity">
 
-    <include layout="@layout/recycler_view"/>
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
