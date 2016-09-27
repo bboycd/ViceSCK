@@ -15,7 +15,7 @@ public class NewsContentProvider extends ContentProvider {
 
     private ViceDBHelper myDB;
     private static final String AUTHORITY = "com.example.sungwon.vicenews.NewsContentProvider";
-    private static final String ARTICLES_TABLE = "articles";
+    private static final String ARTICLES_TABLE = ViceDBHelper.DATABASE_TABLE_NAME;
     public static final Uri CONTENT_URI = Uri.parse("content://"
             + AUTHORITY + "/" + ARTICLES_TABLE);
 
@@ -52,6 +52,8 @@ public class NewsContentProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown URI");
         }
+
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         return cursor;
     }
