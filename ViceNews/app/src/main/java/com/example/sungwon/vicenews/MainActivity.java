@@ -1,9 +1,11 @@
 package com.example.sungwon.vicenews;
 
 import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -31,11 +33,13 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
+    private static final String TAG = MainActivity.class.getName();
     public static final String AUTHORITY = "com.example.sungwon.vicenews.NewsContentProvider";
     public static final String ACCOUNT_TYPE = "example.com";
     public static final String ACCOUNT = "default_account";
 
     Account mAccount;
+    ContentResolver mResolver;
 
     public static final int NOTIFICATION = 1;
 
@@ -70,6 +74,11 @@ public class MainActivity extends AppCompatActivity {
 
 //        recyclerView.setAdapter(adapter);
 
+        /* Instantiating for SyncAdapter*/
+        mAccount = createSyncAccount(this);
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -83,6 +92,26 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
       
+    }
+    /*Necessary dummy account method for syncadapter */
+    private Account createSyncAccount(Context context) {
+        Account newAccount = new Account(
+                ACCOUNT, ACCOUNT_TYPE);
+        AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
+        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+/*
+           * If you don't set android:syncable="true" in
+           * in your <provider> element in the manifest,
+           * then call context.setIsSyncable(account, AUTHORITY, 1)
+           * here.
+           */
+        } else {
+ /*
+             * The account exists or some other error occurred. Log this, report it,
+             * or handle it internally.
+             */
+        }
+        return newAccount;
     }
 
     //NOTIFICATION
