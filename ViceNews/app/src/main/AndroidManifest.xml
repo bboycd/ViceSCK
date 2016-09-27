@@ -38,6 +38,16 @@
             android:label="my provider"
             android:exported="false"
             android:syncable="true"/>
+
+        <service
+            android:name=".MySyncService">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
+        </service>
     </application>
 
 </manifest>
