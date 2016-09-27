@@ -1,12 +1,18 @@
 package com.example.sungwon.vicenews;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,11 +31,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
+
     private StaggeredGridLayoutManager layoutManager;
+
+    private static final String TAG = MainActivity.class.getName();
+    public static final String AUTHORITY = "com.example.sungwon.vicenews.NewsContentProvider";
+    public static final String ACCOUNT_TYPE = "example.com";
+    public static final String ACCOUNT = "default_account";
+
+    Account mAccount;
+    ContentResolver mResolver;
 
     public static final int NOTIFICATION = 1;
 
@@ -65,6 +84,11 @@ public class MainActivity extends AppCompatActivity {
 
 //        recyclerView.setAdapter(adapter);
 
+        /* Instantiating for SyncAdapter*/
+        mAccount = createSyncAccount(this);
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -78,6 +102,49 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+    }
+    /*Necessary dummy account method for syncadapter */
+    private Account createSyncAccount(Context context) {
+        Account newAccount = new Account(
+                ACCOUNT, ACCOUNT_TYPE);
+        AccountManager accountManager = (AccountManager) context.getSystemService(ACCOUNT_SERVICE);
+        if (accountManager.addAccountExplicitly(newAccount, null, null)) {
+/*
+           * If you don't set android:syncable="true" in
+           * in your <provider> element in the manifest,
+           * then call context.setIsSyncable(account, AUTHORITY, 1)
+           * here.
+           */
+        } else {
+ /*
+             * The account exists or some other error occurred. Log this, report it,
+             * or handle it internally.
+             */
+        }
+        return newAccount;
+    }
+
+    public class StockContentObserver extends ContentObserver {
+
+        /**
+         * Creates a content observer.
+         *
+         * @param handler The handler to run {@link #onChange} on, or null if none.
+         */
+        public StockContentObserver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            //do stuff on UI thread
+            Log.d(MainActivity.class.getName(),"Changed observed at "+uri);
+
+            adapter.swapCursor(getContentResolver().query(NewsContentProvider.CONTENT_URI, null, null, null, "portfolio DESC"));
+
+            String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+            Log.d(TAG, "Last updated: "+currentDateTimeString);
+        }
     }
 
     //NOTIFICATION
