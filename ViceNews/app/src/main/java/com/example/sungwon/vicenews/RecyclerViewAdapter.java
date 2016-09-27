@@ -22,7 +22,7 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView, textDetailView;
+        public TextView textView;
         public ImageView imageView;
         public CardView cardView;
 
@@ -31,7 +31,7 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
             super(view);
 
             textView = (TextView) view.findViewById(R.id.textView);
-            textDetailView = (TextView) view.findViewById(R.id.textDetailView);
+//            textDetailView = (TextView) view.findViewById(R.id.textDetailView);
             imageView = (ImageView) view.findViewById(R.id.imageView);
             cardView = (CardView) view.findViewById(R.id.cardView);
         }
@@ -39,7 +39,7 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view,parent,false);
         ViewHolder viewHolder = new ViewHolder(itemView);
 
         return viewHolder;
@@ -49,7 +49,7 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
 
         viewHolder.textView.setText(cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_TITLE)));
-        viewHolder.textDetailView.setText(cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_BODY)));
+//        viewHolder.textDetailView.setText(cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_BODY)));
         //TODO: WILL THIS WORK?
         viewHolder.imageView.setImageURI(Uri.parse(ViceDBHelper.VICENEWS_THUMBNAIL));
     }
