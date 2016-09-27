@@ -27,7 +27,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private RecyclerViewAdapter adapter;
     private StaggeredGridLayoutManager layoutManager;
 
     public static final int NOTIFICATION = 1;
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         //TODO RECYCLER VIEW SETTINGS
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-//        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
         layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 //        adapter = new RecyclerViewAdapter(dataSet);
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-      
+
     }
 
     //NOTIFICATION
