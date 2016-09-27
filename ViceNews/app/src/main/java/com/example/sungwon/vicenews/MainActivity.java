@@ -8,8 +8,11 @@ import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,10 +31,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private RecyclerViewAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
     private static final String TAG = MainActivity.class.getName();
@@ -112,6 +119,29 @@ public class MainActivity extends AppCompatActivity {
              */
         }
         return newAccount;
+    }
+
+    public class StockContentObserver extends ContentObserver {
+
+        /**
+         * Creates a content observer.
+         *
+         * @param handler The handler to run {@link #onChange} on, or null if none.
+         */
+        public StockContentObserver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            //do stuff on UI thread
+            Log.d(MainActivity.class.getName(),"Changed observed at "+uri);
+
+            adapter.swapCursor(getContentResolver().query(NewsContentProvider.CONTENT_URI, null, null, null, "portfolio DESC"));
+
+            String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+            Log.d(TAG, "Last updated: "+currentDateTimeString);
+        }
     }
 
     //NOTIFICATION
