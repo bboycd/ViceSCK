@@ -31,7 +31,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -275,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
 
             mRecyclerView = (RecyclerView) rootView.findViewById(recyclerView);
             mRecyclerView.setHasFixedSize(true);
@@ -288,15 +287,15 @@ public class MainActivity extends AppCompatActivity {
             switch (mPage){
                 case(1)://top
                     String top = "getmostpopular/";
-                    textView.setText(top);
+//                    textView.setText(top);
                     break;
                 case(2)://latest
                     String latest = "getlatest/";
-                    textView.setText(latest);
+//                    textView.setText(latest);
                     break;
                 case(3):
                     /* mostly for shared pref*/
-                    textView.setText("custom");
+//                    textView.setText("custom");
                     break;
             }
 
