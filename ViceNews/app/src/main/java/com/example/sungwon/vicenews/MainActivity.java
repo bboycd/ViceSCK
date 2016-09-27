@@ -35,12 +35,13 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.util.Date;
 
+import static com.example.sungwon.vicenews.R.id.recyclerView;
+
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private RecyclerViewAdapter adapter;
 
-    private StaggeredGridLayoutManager layoutManager;
+
+
 
     private static final String TAG = MainActivity.class.getName();
     public static final String AUTHORITY = "com.example.sungwon.vicenews.NewsContentProvider";
@@ -75,15 +76,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        //TODO RECYCLER VIEW SETTINGS
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layoutManager);
-//        adapter = new RecyclerViewAdapter(dataSet);
-
-//        recyclerView.setAdapter(adapter);
 
         /* Instantiating for SyncAdapter*/
         mAccount = createSyncAccount(this);
@@ -141,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             //do stuff on UI thread
             Log.d(MainActivity.class.getName(),"Changed observed at "+uri);
 
-            adapter.swapCursor(getContentResolver().query(NewsContentProvider.CONTENT_URI, null, null, null, "portfolio DESC"));
+            //TODO: update sht
 
             String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
             Log.d(TAG, "Last updated: "+currentDateTimeString);
@@ -208,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
+            // getItem is called to instantiate the fragment for the given mPage.
             // Return a PlaceholderFragment (defined as a static inner class below).
             return PlaceholderFragment.newInstance(position + 1);
         }
@@ -242,8 +234,15 @@ public class MainActivity extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-        /* allows frag to get page number*/
-        private int page;
+        /* allows frag to get mPage number*/
+        private int mPage;
+
+
+        private RecyclerView mRecyclerView;
+        RecyclerViewAdapter mAdapter;
+        private StaggeredGridLayoutManager mLayoutManager;
+
+
 
 
         /**
@@ -263,7 +262,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            page = getArguments().getInt(ARG_SECTION_NUMBER, 0);
+            mPage = getArguments().getInt(ARG_SECTION_NUMBER, 0);
+
         }
 
         public PlaceholderFragment() {
@@ -274,16 +274,45 @@ public class MainActivity extends AppCompatActivity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            switch (page){
-                case(1):
+
+            mRecyclerView = (RecyclerView) rootView.findViewById(recyclerView);
+            mRecyclerView.setHasFixedSize(true);
+            mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            mRecyclerView.setLayoutManager(mLayoutManager);
+//        mAdapter = new RecyclerViewAdapter(dataSet);
+
+//            mRecyclerView.setAdapter(mAdapter);
+
+            switch (mPage){
+                case(1)://top
+                    String top = "getmostpopular/";
+                    textView.setText(top);
                     break;
-                case(2):
+                case(2)://latest
+                    String latest = "getlatest/";
+                    textView.setText(latest);
                     break;
                 case(3):
+                    /* mostly for shared pref*/
+                    textView.setText("custom");
                     break;
             }
 
             return rootView;
+        }
+
+        public void fragChangeCursor(){
+            switch (mPage){
+                case(1)://top
+                    String top = "getmostpopular/";
+                    break;
+                case(2)://latest
+                    String latest = "getlatest/";
+                    break;
+                case(3):
+                    /* mostly for shared pref*/
+                    break;
+            }
         }
     }
 }
