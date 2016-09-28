@@ -81,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
         /* Instantiating for SyncAdapter*/
         mAccount = createSyncAccount(this);
 
-        getContentResolver().registerContentObserver(NewsContentProvider.CONTENT_URI,true,new NewsContentObserver(new Handler()));
+        getContentResolver().registerContentObserver(NewsContentProvider.CONTENT_RECENT_URI,true,new NewsContentObserver(new Handler()));
+        getContentResolver().registerContentObserver(NewsPopularProvider.CONTENT_POPULAR_URI,true,new NewsContentObserver(new Handler()));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
