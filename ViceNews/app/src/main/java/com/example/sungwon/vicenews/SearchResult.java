@@ -7,13 +7,6 @@ package com.example.sungwon.vicenews;
 public class SearchResult {
     NewsItem data;
 
-    public NewsItem getData() {
-        return data;
-    }
-
-    public void setData(NewsItem data) {
-        this.data = data;
-    }
 
     @Override
     public String toString() {

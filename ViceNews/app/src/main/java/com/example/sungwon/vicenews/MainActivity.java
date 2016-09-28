@@ -9,13 +9,17 @@ import android.app.SearchManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -91,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
+        loadPreferences();
     }
     /*Necessary dummy account method for syncadapter */
     private Account createSyncAccount(Context context) {
@@ -135,6 +139,11 @@ public class MainActivity extends AppCompatActivity {
             PlaceholderFragment frag = (PlaceholderFragment)getSupportFragmentManager().findFragmentById(R.id.container);
             frag.fragChangeCursor();
 
+            Bundle bundle = new Bundle();
+            bundle.putString("page", frag.getURLEndpoint());
+
+            mResolver.requestSync(mAccount, AUTHORITY, bundle);
+
 
             String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
             Log.d(TAG, "Last updated: "+currentDateTimeString);
@@ -143,22 +152,22 @@ public class MainActivity extends AppCompatActivity {
 
     //NOTIFICATION
     private void bigPictureNotification (){
-    NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
-    bigPictureStyle.bigPicture(BitmapFactory.decodeResource(getResources(),R.drawable.multi)).build();
+        NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+        bigPictureStyle.bigPicture(BitmapFactory.decodeResource(getResources(),R.drawable.multi)).build();
 
-    Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
 
-    PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
-    NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-    builder.setSmallIcon(R.drawable.fire);
-    builder.setContentTitle("title");
-    builder.setContentText("description");
-    builder.setAutoCancel(true);
-    builder.setStyle(bigPictureStyle);
-    builder.setContentIntent(pendingIntent);
-    builder.setPriority(Notification.PRIORITY_MAX);
-    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-    manager.notify(NOTIFICATION, builder.build());
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSmallIcon(R.drawable.fire);
+        builder.setContentTitle("title");
+        builder.setContentText("description");
+        builder.setAutoCancel(true);
+        builder.setStyle(bigPictureStyle);
+        builder.setContentIntent(pendingIntent);
+        builder.setPriority(Notification.PRIORITY_MAX);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(NOTIFICATION, builder.build());
     }
 
 
@@ -205,6 +214,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, ViceSettings.class);
+            startActivity(intent);
             return true;
         }
 
@@ -261,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
         /* allows frag to get mPage number*/
-        private int mPage;
+        public int mPage;
 
 
         private RecyclerView mRecyclerView;
@@ -342,5 +353,30 @@ public class MainActivity extends AppCompatActivity {
             }
             mAdapter.changeCursor(cursor);
         }
+
+        public String getURLEndpoint(){
+            String endpoint = "";
+            switch (mPage){
+                case(1):
+                    endpoint = "getmostpopular/";
+                    break;
+                case(2):
+                    endpoint = "getlatest/";
+                    break;
+                case(3):
+                    break;
+            }
+            return endpoint;
+        }
+    }
+    private void loadPreferences(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        boolean isBackgroundDark = sharedPreferences.getBoolean("background_color", true);
+        if(isBackgroundDark){
+            CoordinatorLayout mainLayout = (CoordinatorLayout) findViewById(R.id.main_content);
+            mainLayout.setBackgroundColor(Color.parseColor("#000000"));
+        }
+
     }
 }
