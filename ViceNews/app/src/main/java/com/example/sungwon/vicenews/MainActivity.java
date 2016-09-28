@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             Cursor cursor2 = ViceDBHelper.getInstance(this).searchArticles(query);
 
-//            adapter.changeCursor(cursor2);
+//            madapter.changeCursor(cursor2);
 
             Toast.makeText(MainActivity.this, "Searching for " + query, Toast.LENGTH_SHORT).show();
 
