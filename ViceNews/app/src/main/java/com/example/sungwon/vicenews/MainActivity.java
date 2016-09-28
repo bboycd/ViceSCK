@@ -139,6 +139,11 @@ public class MainActivity extends AppCompatActivity {
             PlaceholderFragment frag = (PlaceholderFragment)getSupportFragmentManager().findFragmentById(R.id.container);
             frag.fragChangeCursor();
 
+            Bundle bundle = new Bundle();
+            bundle.putString("page", frag.getURLEndpoint());
+
+            mResolver.requestSync(mAccount, AUTHORITY, bundle);
+
 
             String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
             Log.d(TAG, "Last updated: "+currentDateTimeString);
@@ -147,22 +152,22 @@ public class MainActivity extends AppCompatActivity {
 
     //NOTIFICATION
     private void bigPictureNotification (){
-    NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
-    bigPictureStyle.bigPicture(BitmapFactory.decodeResource(getResources(),R.drawable.multi)).build();
+        NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+        bigPictureStyle.bigPicture(BitmapFactory.decodeResource(getResources(),R.drawable.multi)).build();
 
-    Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
 
-    PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
-    NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-    builder.setSmallIcon(R.drawable.fire);
-    builder.setContentTitle("title");
-    builder.setContentText("description");
-    builder.setAutoCancel(true);
-    builder.setStyle(bigPictureStyle);
-    builder.setContentIntent(pendingIntent);
-    builder.setPriority(Notification.PRIORITY_MAX);
-    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-    manager.notify(NOTIFICATION, builder.build());
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSmallIcon(R.drawable.fire);
+        builder.setContentTitle("title");
+        builder.setContentText("description");
+        builder.setAutoCancel(true);
+        builder.setStyle(bigPictureStyle);
+        builder.setContentIntent(pendingIntent);
+        builder.setPriority(Notification.PRIORITY_MAX);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(NOTIFICATION, builder.build());
     }
 
 
@@ -267,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
         /* allows frag to get mPage number*/
-        private int mPage;
+        public int mPage;
 
 
         private RecyclerView mRecyclerView;
@@ -347,6 +352,21 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
             mAdapter.changeCursor(cursor);
+        }
+
+        public String getURLEndpoint(){
+            String endpoint = "";
+            switch (mPage){
+                case(1):
+                    endpoint = "getmostpopular/";
+                    break;
+                case(2):
+                    endpoint = "getlatest/";
+                    break;
+                case(3):
+                    break;
+            }
+            return endpoint;
         }
     }
     private void loadPreferences(){
