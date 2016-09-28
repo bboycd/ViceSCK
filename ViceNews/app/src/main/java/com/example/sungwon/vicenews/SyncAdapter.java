@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.SyncResult;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * Created by SungWon on 9/26/2016.
@@ -37,6 +38,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
+        Log.d(SyncAdapter.class.getName(), "Starting Sync");
+        getArticles();
+    }
+
+    private void getArticles() {
 
     }
 }
