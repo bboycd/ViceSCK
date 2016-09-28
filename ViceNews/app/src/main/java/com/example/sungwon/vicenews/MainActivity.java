@@ -318,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
 //                    textView.setText(latest);
                     break;
                 case(3):
-                    /* mostly for shared pref*/
+                    /* mostly for shared pref and settings*/
 //                    textView.setText("custom");
                     break;
             }
