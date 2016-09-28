@@ -52,7 +52,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
         Log.d(SyncAdapter.class.getName(), "Starting Sync");
         String page = bundle.getString("page");
-        //TODO: delete everything
+//        mContentResolver.delete(NewsContentProvider.CONTENT_URI, null, null);
         getRecentArticles();
         getPopularArticles();
     }
