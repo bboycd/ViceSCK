@@ -4,6 +4,7 @@ import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncResult;
 import android.net.Uri;
@@ -12,6 +13,15 @@ import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Created by SungWon on 9/26/2016.
@@ -44,12 +54,48 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
         Log.d(SyncAdapter.class.getName(), "Starting Sync");
         String page = bundle.getString("page");
+        //TODO: delete everything
         getRecentArticles();
+        //TODO: get pop art
     }
 
     private void getRecentArticles() {
         RequestQueue queue = Volley.newRequestQueue(getContext());
 
-        String viceURL = "http://vice.com/api/getmostpopular/0";
+        URL viceURL = null;
+        final Gson gson = new Gson();
+        String data = null;
+        InputStream inStream = null;
+        HttpURLConnection connection = null;
+        try{
+            viceURL = new URL("http://vice.com/api/getmostpopular/0");
+            connection = (HttpURLConnection) viceURL.openConnection();
+            connection.connect();
+            inStream = connection.getInputStream();
+            data = getInputData(inStream);
+            SearchResult result = gson.fromJson(data, SearchResult.class);
+            NewsItem newsItemArray = result.data;
+            ContentValues values = new ContentValues();
+//            values.put()
+//            TODO: do value put based on db
+        } catch (MalformedURLException e){
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    private String getInputData(InputStream inStream) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
+
+        String data = null;
+
+        while ((data = reader.readLine()) != null){
+            builder.append(data);
+        }
+
+        reader.close();
+
+        return builder.toString();
     }
 }
