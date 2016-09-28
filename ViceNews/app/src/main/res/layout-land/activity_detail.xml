@@ -101,4 +101,10 @@
         android:layout_marginRight="16dp"
         app:layout_constraintVertical_bias="0.0" />
 
+    <WebView
+        android:layout_width="592dp"
+        android:layout_height="246dp"
+        tools:layout_editor_absoluteY="113dp"
+        tools:layout_editor_absoluteX="0dp" />
+
 </android.support.constraint.ConstraintLayout>

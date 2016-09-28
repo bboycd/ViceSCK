@@ -133,10 +133,10 @@ public class ViceDBHelper extends SQLiteOpenHelper{
     }
 
     //cursor for searching News Article
-    public Cursor searchArticles(String query, String choice) {
+    public Cursor searchArticles(String query, String table) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor scursor = null;
-        switch (choice) {
+        switch (table) {
             case "latest":
 
                 scursor = db.query(DATABASE_TABLE_NAME_LATEST,

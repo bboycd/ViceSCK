@@ -190,7 +190,8 @@ public class MainActivity extends AppCompatActivity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Cursor cursor2 = ViceDBHelper.getInstance(this).searchArticles(query);
+            Cursor cursor2 = ViceDBHelper.getInstance(this).searchArticles(query, "latest");
+            Cursor cursor3 = ViceDBHelper.getInstance(this).searchArticles(query, "popular");
 
 //            madapter.changeCursor(cursor2);
 
