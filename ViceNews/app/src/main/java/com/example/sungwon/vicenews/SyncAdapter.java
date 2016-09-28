@@ -11,8 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -56,12 +54,34 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         String page = bundle.getString("page");
         //TODO: delete everything
         getRecentArticles();
-        //TODO: get pop art
+        getPopularArticles();
     }
 
     private void getRecentArticles() {
-        RequestQueue queue = Volley.newRequestQueue(getContext());
+        URL viceURL = null;
+        final Gson gson = new Gson();
+        String data = null;
+        InputStream inStream = null;
+        HttpURLConnection connection = null;
+        try{
+            viceURL = new URL("http://vice.com/api/getlatest/0");
+            connection = (HttpURLConnection) viceURL.openConnection();
+            connection.connect();
+            inStream = connection.getInputStream();
+            data = getInputData(inStream);
+            SearchResult result = gson.fromJson(data, SearchResult.class);
+            NewsItem newsItemArray = result.data;
+            ContentValues values = new ContentValues();
+//            values.put()
+//            TODO: do value put based on db
+        } catch (MalformedURLException e){
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
+    private void getPopularArticles() {
         URL viceURL = null;
         final Gson gson = new Gson();
         String data = null;
@@ -84,6 +104,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             e.printStackTrace();
         }
     }
+
     private String getInputData(InputStream inStream) throws IOException {
         StringBuilder builder = new StringBuilder();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inStream));
