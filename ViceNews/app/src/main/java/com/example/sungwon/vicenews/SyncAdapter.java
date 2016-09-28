@@ -10,6 +10,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+
 /**
  * Created by SungWon on 9/26/2016.
  */
@@ -33,16 +36,20 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         mContentResolver = context.getContentResolver();
 
+
     }
 
 
     @Override
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
         Log.d(SyncAdapter.class.getName(), "Starting Sync");
-        getArticles();
+        String page = bundle.getString("page");
+        getRecentArticles();
     }
 
-    private void getArticles() {
+    private void getRecentArticles() {
+        RequestQueue queue = Volley.newRequestQueue(getContext());
 
+        String viceURL = "http://vice.com/api/getmostpopular/0";
     }
 }
