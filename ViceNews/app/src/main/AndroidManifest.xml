@@ -59,7 +59,8 @@
 
         <activity
             android:name=".ViceSettings"
-            android:label="@string/title_activity_vice_settings"></activity>
+            android:label="@string/title_activity_vice_settings"
+            android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".DetailActivity"
             android:label="@string/title_activity_detail"
