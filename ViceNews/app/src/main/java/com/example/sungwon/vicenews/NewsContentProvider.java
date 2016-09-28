@@ -15,8 +15,10 @@ public class NewsContentProvider extends ContentProvider {
 
     private ViceDBHelper myDB;
     private static final String AUTHORITY = "com.example.sungwon.vicenews.NewsContentProvider";
-    private static final String ARTICLES_RECENT_TABLE = ViceDBHelper.DATABASE_TABLE_NAME;
-    private static final String ARTICLES_POPULAR_TABLE = ViceDBHelper.DATABASE_TABLE_NAME;
+
+    private static final String ARTICLES_RECENT_TABLE = ViceDBHelper.DATABASE_TABLE_NAME_LATEST;
+    private static final String ARTICLES_POPULAR_TABLE = ViceDBHelper.DATABASE_TABLE_NAME_POPULAR;
+
     public static final Uri CONTENT_URI = Uri.parse("content://"
             + AUTHORITY + "/" + ARTICLES_RECENT_TABLE);
 

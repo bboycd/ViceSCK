@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="General">
+
+        <MultiSelectListPreference
+            android:title="Categories"
+            android:key="select_categories"
+            android:summary="Select your favorite categories"
+            android:defaultValue="@array/category_defaults"
+            android:entries="@array/category_titles"
+            android:entryValues="@array/category_values"
+            />
+
+        <SwitchPreference
+            android:title="Default"
+            android:key="default_switch"
+            android:summary="Top/Custom"
+            android:defaultValue="true" />
+
+        <SwitchPreference
+            android:title="Captions"
+            android:key="captions_switch"
+            android:summary="Verbose/Simple"
+            android:defaultValue="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Display Options">
+
+        <SwitchPreference
+            android:title="View Style"
+            android:key="view_switch"
+            android:summary="Box/Panel"
+            android:defaultValue="true"/>
+
+        <SwitchPreference
+            android:title="Theme"
+            android:key="background_switch"
+            android:summary="Dark/Light Theme"
+            android:defaultValue="true"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

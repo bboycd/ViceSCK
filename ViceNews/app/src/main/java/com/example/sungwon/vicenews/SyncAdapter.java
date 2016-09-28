@@ -30,7 +30,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     ContentResolver mContentResolver;
 
     private static final String AUTHORITY = "com.example.sungwon.vicenews.NewsContentProvider";
-    private static final String STOCKS_TABLE = ViceDBHelper.DATABASE_TABLE_NAME;
+    private static final String STOCKS_TABLE = ViceDBHelper.DATABASE_TABLE_NAME_LATEST;
     public static final Uri SYMBOLS_CONTENT_URI = Uri.parse("content://"
             + AUTHORITY + "/" + STOCKS_TABLE + "/symbols");
 

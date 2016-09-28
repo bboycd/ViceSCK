@@ -9,13 +9,17 @@ import android.app.SearchManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -91,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
+        loadPreferences();
     }
     /*Necessary dummy account method for syncadapter */
     private Account createSyncAccount(Context context) {
@@ -191,7 +195,8 @@ public class MainActivity extends AppCompatActivity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Cursor cursor2 = ViceDBHelper.getInstance(this).searchArticles(query);
+            Cursor cursor2 = ViceDBHelper.getInstance(this).searchArticles(query, "latest");
+            Cursor cursor3 = ViceDBHelper.getInstance(this).searchArticles(query, "popular");
 
 //            madapter.changeCursor(cursor2);
 
@@ -209,6 +214,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, ViceSettings.class);
+            startActivity(intent);
             return true;
         }
 
@@ -361,5 +368,15 @@ public class MainActivity extends AppCompatActivity {
             }
             return endpoint;
         }
+    }
+    private void loadPreferences(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        boolean isBackgroundDark = sharedPreferences.getBoolean("background_color", true);
+        if(isBackgroundDark){
+            CoordinatorLayout mainLayout = (CoordinatorLayout) findViewById(R.id.main_content);
+            mainLayout.setBackgroundColor(Color.parseColor("#000000"));
+        }
+
     }
 }
