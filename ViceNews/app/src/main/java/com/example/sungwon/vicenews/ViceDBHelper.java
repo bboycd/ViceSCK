@@ -15,7 +15,7 @@ import static android.database.DatabaseUtils.dumpCursor;
 
 public class ViceDBHelper extends SQLiteOpenHelper{
     //instantiating database
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "ViceNews.db";
     //instantiating columns in database
     public static final String DATABASE_TABLE_NAME_LATEST = "getlatest";

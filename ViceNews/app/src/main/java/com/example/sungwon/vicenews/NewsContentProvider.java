@@ -55,7 +55,7 @@ public class NewsContentProvider extends ContentProvider {
         switch (uriType) {
             case ARTICLES_RECENT:
                 //TODOne: Make query for Recent articles auto set to 0
-                cursor = myDB.getRecentArticles(uri.getLastPathSegment(), null);
+                cursor = myDB.getRecentArticles(null, null);
                 break;
             case ARTICLES_RECENT_ID:
                 //TODO: Make query for Recent articles
@@ -63,7 +63,7 @@ public class NewsContentProvider extends ContentProvider {
                 break;
             case ARTICLES_POPULAR:
                 //TODOne: Make query for popular articles auto set to 0
-                cursor = myDB.getPopularArticles(uri.getLastPathSegment(), null);
+                cursor = myDB.getPopularArticles(null, null);
                 break;
             case ARTICLES_POPULAR_ID:
                 //TODO: Make query for pop art

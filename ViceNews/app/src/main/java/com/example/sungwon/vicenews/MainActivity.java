@@ -327,14 +327,14 @@ public class MainActivity extends AppCompatActivity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 //            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-
+            Cursor dummycursor = null;
             mRecyclerView = (RecyclerView) rootView.findViewById(recyclerView);
             mRecyclerView.setHasFixedSize(true);
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(mLayoutManager);
-//        mAdapter = new RecyclerViewAdapter(dataSet);
+            mAdapter = new RecyclerViewAdapter(getContext(), dummycursor);
 
-//            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setAdapter(mAdapter);
 
             switch (mPage){
                 case(1)://top
