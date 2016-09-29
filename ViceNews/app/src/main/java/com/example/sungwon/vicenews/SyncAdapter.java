@@ -52,9 +52,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
         Log.d(SyncAdapter.class.getName(), "Starting Sync");
         String page = bundle.getString("page");
-//        mContentResolver.delete(NewsContentProvider.CONTENT_URI, null, null);
-        getRecentArticles();
+        mContentResolver.delete(NewsContentProvider.CONTENT_POPULAR_URI_FULL, null, null);
+        mContentResolver.delete(NewsContentProvider.CONTENT_RECENT_URI_FULL, null, null);
         getPopularArticles();
+
+        getRecentArticles();
+
     }
 
     private void getRecentArticles() {
@@ -63,39 +66,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         String data = null;
         InputStream inStream = null;
         HttpURLConnection connection = null;
-        try{
-            viceURL = new URL("http://vice.com/api/getlatest/0");
-            connection = (HttpURLConnection) viceURL.openConnection();
-            connection.connect();
-            inStream = connection.getInputStream();
-            data = getInputData(inStream);
-            SearchResult result = gson.fromJson(data, SearchResult.class);
-            NewsItem newsItemArray = result.data;
-            ContentValues values = new ContentValues();
-//            int i = newsItemArray.items.length;
-//            TODOne:To insert value
-//            this is all in a for loop
-//            NewsDetail details = newsItemArray.items[i];
-//            String something = details.getSomeString;
-//            values.insert???(key value which is the same as the column in DB, something);
-// values.put()
-//            mContentResolver.insert()
-            for (int i = 0; i < newsItemArray.getItems().length; i++) {
-                NewsDetail details = newsItemArray.getItems()[i];
-                values.put("title",details.getTitle());
-                values.put("author",details.getAuthor());
-                values.put("body", details.getBody());
-                values.put("preview", details.getPreview());
-                values.put("category", details.getCategory());
-                values.put("thumbnail", details.getThumb());
-                mContentResolver.insert(NewsContentProvider.CONTENT_RECENT_URI_FULL, values);
-                if (i>19){Log.d(TAG, "Story Added: "+details.getTitle());}
-            }
-        } catch (MalformedURLException e){
-            e.printStackTrace();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+
+        AsyncHttpClient client
     }
 
     private void getPopularArticles() {
