@@ -21,9 +21,9 @@ public class NewsContentProvider extends ContentProvider {
     public static final Uri CONTENT_RECENT_URI = Uri.parse("content://"
             + AUTHORITY + "/");
     public static final Uri CONTENT_RECENT_URI_FULL = Uri.parse("content://"
-            + AUTHORITY + "/" + ARTICLES_RECENT_TABLE + "/");
+            + AUTHORITY + "/" + ARTICLES_RECENT_TABLE + "/0");
     public static final Uri CONTENT_POPULAR_URI_FULL = Uri.parse("content://"
-            + AUTHORITY + "/" + ARTICLES_POPULAR_TABLE + "/");
+            + AUTHORITY + "/" + ARTICLES_POPULAR_TABLE + "/0");
 
     public static final int ARTICLES_RECENT = 1;
     public static final int ARTICLES_RECENT_ID = 2;
@@ -60,6 +60,7 @@ public class NewsContentProvider extends ContentProvider {
             case ARTICLES_RECENT_ID:
                 //TODO: Make query for Recent articles
 //                cursor = myDB.getRecentArticles(selection, selectionArgs);
+                cursor = myDB.getRecentArticles(null, null);
                 break;
             case ARTICLES_POPULAR:
                 //TODOne: Make query for popular articles auto set to 0
@@ -68,6 +69,7 @@ public class NewsContentProvider extends ContentProvider {
             case ARTICLES_POPULAR_ID:
                 //TODO: Make query for pop art
 //                cursor = myDB.getPopularArticles(uri.getLastPathSegment());
+                cursor = myDB.getPopularArticles(null, null);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI");
@@ -97,7 +99,8 @@ public class NewsContentProvider extends ContentProvider {
                 endPoint = ARTICLES_RECENT_TABLE;
                 break;
             case ARTICLES_RECENT_ID:
-
+                id = myDB.addArticleLatest(contentValues);
+                endPoint = ARTICLES_RECENT_TABLE;
 //                cursor = myDB.getRecentArticles(selection, selectionArgs);
                 break;
             case ARTICLES_POPULAR:
@@ -107,6 +110,8 @@ public class NewsContentProvider extends ContentProvider {
                 break;
             case ARTICLES_POPULAR_ID:
 //                cursor = myDB.getPopularArticles(uri.getLastPathSegment());
+                id = myDB.addArticlePopular(contentValues);
+                endPoint = ARTICLES_POPULAR_TABLE;
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);

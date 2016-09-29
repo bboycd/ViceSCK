@@ -7,7 +7,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncResult;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -33,8 +32,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final String AUTHORITY = "com.example.sungwon.vicenews.NewsContentProvider";
     private static final String STOCKS_TABLE = ViceDBHelper.DATABASE_TABLE_NAME_LATEST;
-    public static final Uri SYMBOLS_CONTENT_URI = Uri.parse("content://"
-            + AUTHORITY + "/" + STOCKS_TABLE + "/symbols");
+
 
     public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs, ContentResolver mContentResolver) {
         super(context, autoInitialize, allowParallelSyncs);

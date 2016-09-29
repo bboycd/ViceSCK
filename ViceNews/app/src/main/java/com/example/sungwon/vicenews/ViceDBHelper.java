@@ -3,11 +3,8 @@ package com.example.sungwon.vicenews;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import static android.database.DatabaseUtils.dumpCursor;
 
 /**
  * Created by Owen on 9/26/2016.
@@ -107,13 +104,11 @@ public class ViceDBHelper extends SQLiteOpenHelper{
     public Cursor getRecentArticles(String selection, String[] selectionArgs) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(DATABASE_TABLE_NAME_LATEST,VICENEWS_COLUMNS,selection,selectionArgs,null,null,null);
-        dumpCursor(cursor);
         return cursor;
     }
     public Cursor getPopularArticles(String selection, String[] selectionArgs) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(DATABASE_TABLE_NAME_POPULAR,VICENEWS_COLUMNS,selection,selectionArgs,null,null,null);
-        dumpCursor(cursor);
         return cursor;
     }
 
@@ -159,7 +154,6 @@ public class ViceDBHelper extends SQLiteOpenHelper{
                         null);
                 break;
         }
-            DatabaseUtils.dumpCursor(scursor);
             return scursor;
 
     }
@@ -173,7 +167,6 @@ public class ViceDBHelper extends SQLiteOpenHelper{
                 null,
                 null,
                 null);
-        dumpCursor(dcursor);
         return dcursor;
     }
     public Cursor detailsArticlesPopular(int id){
@@ -185,7 +178,6 @@ public class ViceDBHelper extends SQLiteOpenHelper{
                 null,
                 null,
                 null);
-        dumpCursor(dcursor);
         return dcursor;
     }
 
