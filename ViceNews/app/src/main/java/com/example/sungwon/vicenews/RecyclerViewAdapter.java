@@ -1,7 +1,10 @@
 package com.example.sungwon.vicenews;
 
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -58,6 +61,35 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
 //        viewHolder.textDetailView.setText(cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_BODY)));
         //TODO: WILL THIS WORK?
         Picasso.with(context).load(cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_THUMBNAIL))).into(viewHolder.imageView);
+
+
+
+        final Integer position = cursor.getPosition();
+        viewHolder.cardView.setTag(position);
+        //INTENT TO DETAIL VIEW
+        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                Cursor cursor = getCursor();
+                int position = ((Integer) view.getTag()).intValue();
+                cursor.moveToPosition(position);
+                String title = cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_TITLE));
+                String detail = cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_BODY));
+                String image = cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_THUMBNAIL));
+                intent.putExtra("title", title);
+                intent.putExtra("detail", detail);
+                intent.putExtra("image", image);
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    View image2 = view.findViewById(R.id.imageView);
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) view.getContext()), image2, "imageView");
+                    view.getContext().startActivity(intent, options.toBundle());
+                }else{
+                    view.getContext().startActivity(intent);
+                }
+            }
+        });
     }
 
 }
