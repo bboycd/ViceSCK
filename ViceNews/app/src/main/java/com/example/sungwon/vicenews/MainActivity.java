@@ -350,10 +350,7 @@ public class MainActivity extends AppCompatActivity {
             mRecyclerView.setHasFixedSize(true);
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(mLayoutManager);
-<<<<<<< HEAD
 
-=======
->>>>>>> refs/remotes/SuCK-Corp/master
 
             mAdapter = new RecyclerViewAdapter(getContext(), dummycursor);
 
