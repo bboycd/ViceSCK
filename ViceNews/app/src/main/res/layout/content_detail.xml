@@ -8,10 +8,12 @@
     tools:context="com.example.sungwon.vicenews.DetailActivity"
     tools:showIn="@layout/activity_detail">
 
-    <TextView
+
+    <WebView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+        tools:layout_editor_absoluteY="181dp"
+        tools:layout_editor_absoluteX="0dp"
+        android:elevation="10dp" />
 
 </android.support.v4.widget.NestedScrollView>
