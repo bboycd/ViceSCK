@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     Account mAccount;
     ContentResolver mResolver;
+    private final NewsContentObserver contentObserver = new NewsContentObserver(new Handler());
 
     public static final int NOTIFICATION = 1;
 
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         /* Instantiating for SyncAdapter*/
         mAccount = createSyncAccount(this);
 
-        getContentResolver().registerContentObserver(NewsContentProvider.CONTENT_RECENT_URI,true,new NewsContentObserver(new Handler()));
+        getContentResolver().registerContentObserver(NewsContentProvider.CONTENT_RECENT_URI,true,contentObserver);
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(
                 ContentResolver.SYNC_EXTRAS_MANUAL, true);
@@ -103,12 +104,12 @@ public class MainActivity extends AppCompatActivity {
          */
         ContentResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
 
-        ContentResolver.setSyncAutomatically(mAccount,AUTHORITY,true);
+        ContentResolver.setSyncAutomatically(mAccount,AUTHORITY,false);
         ContentResolver.addPeriodicSync(
                 mAccount,
                 AUTHORITY,
                 Bundle.EMPTY,
-                10000);//set the time
+                3000);//set the time
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -124,6 +125,13 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
         loadPreferences();
     }
+
+    @Override
+    protected void onDestroy() {
+        getContentResolver().unregisterContentObserver(contentObserver);
+        super.onDestroy();
+    }
+
     /*Necessary dummy account method for syncadapter */
     private Account createSyncAccount(Context context) {
         Account newAccount = new Account(
@@ -342,7 +350,10 @@ public class MainActivity extends AppCompatActivity {
             mRecyclerView.setHasFixedSize(true);
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(mLayoutManager);
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/SuCK-Corp/master
 
             mAdapter = new RecyclerViewAdapter(getContext(), dummycursor);
 

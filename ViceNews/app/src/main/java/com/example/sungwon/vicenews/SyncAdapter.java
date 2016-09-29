@@ -11,14 +11,15 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.loopj.android.http.SyncHttpClient;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by SungWon on 9/26/2016.
@@ -52,85 +53,80 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
         Log.d(SyncAdapter.class.getName(), "Starting Sync");
         String page = bundle.getString("page");
-//        mContentResolver.delete(NewsContentProvider.CONTENT_URI, null, null);
-        getRecentArticles();
+        mContentResolver.delete(NewsContentProvider.CONTENT_POPULAR_URI_FULL, null, null);
+        mContentResolver.delete(NewsContentProvider.CONTENT_RECENT_URI_FULL, null, null);
         getPopularArticles();
+        getRecentArticles();
     }
 
     private void getRecentArticles() {
-        URL viceURL = null;
         final Gson gson = new Gson();
         String data = null;
-        InputStream inStream = null;
-        HttpURLConnection connection = null;
-        try{
-            viceURL = new URL("http://vice.com/api/getlatest/0");
-            connection = (HttpURLConnection) viceURL.openConnection();
-            connection.connect();
-            inStream = connection.getInputStream();
-            data = getInputData(inStream);
-            SearchResult result = gson.fromJson(data, SearchResult.class);
-            NewsItem newsItemArray = result.data;
-            ContentValues values = new ContentValues();
-//            int i = newsItemArray.items.length;
-//            TODOne:To insert value
-//            this is all in a for loop
-//            NewsDetail details = newsItemArray.items[i];
-//            String something = details.getSomeString;
-//            values.insert???(key value which is the same as the column in DB, something);
-// values.put()
-//            mContentResolver.insert()
-            for (int i = 0; i < newsItemArray.getItems().length; i++) {
-                NewsDetail details = newsItemArray.getItems()[i];
-                values.put("title",details.getTitle());
-                values.put("author",details.getAuthor());
-                values.put("body", details.getBody());
-                values.put("preview", details.getPreview());
-                values.put("category", details.getCategory());
-                values.put("thumbnail", details.getThumb());
-                mContentResolver.insert(NewsContentProvider.CONTENT_RECENT_URI_FULL, values);
-                if (i>19){Log.d(TAG, "Story Added: "+details.getTitle());}
-            }
-        } catch (MalformedURLException e){
-            e.printStackTrace();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+
+        SyncHttpClient client = new SyncHttpClient();
+
+        client.get("http://vice.com/api/getlatest/0", null,
+                new TextHttpResponseHandler() {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Log.d(TAG, "TextHttpResponseHandler failed");
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String data) {
+                        SearchResult result = gson.fromJson(data, SearchResult.class);
+                        NewsItem newsItemArray = result.data;
+                        ContentValues values = new ContentValues();
+//            values.put()
+//            TODOne: do value put based on db
+                        for (int i = 0; i < newsItemArray.getItems().length; i++) {
+                            NewsDetail details = newsItemArray.getItems()[i];
+                            values.put("title",details.getTitle());
+                            values.put("author",details.getAuthor());
+                            values.put("body", details.getBody());
+                            values.put("preview", details.getPreview());
+                            values.put("category", details.getCategory());
+                            values.put("thumbnail", details.getThumb());
+                            mContentResolver.insert(NewsContentProvider.CONTENT_RECENT_URI_FULL, values);
+                            if (i>19){Log.d(TAG, "Story Added: "+details.getTitle());}
+                        }
+                    }
+                });
     }
 
     private void getPopularArticles() {
-        URL viceURL = null;
         final Gson gson = new Gson();
         String data = null;
-        InputStream inStream = null;
-        HttpURLConnection connection = null;
-        try{
-            viceURL = new URL("http://vice.com/api/getmostpopular/0");
-            connection = (HttpURLConnection) viceURL.openConnection();
-            connection.connect();
-            inStream = connection.getInputStream();
-            data = getInputData(inStream);
-            SearchResult result = gson.fromJson(data, SearchResult.class);
-            NewsItem newsItemArray = result.data;
-            ContentValues values = new ContentValues();
+
+        SyncHttpClient client = new SyncHttpClient();
+
+        client.get("http://vice.com/api/getmostpopular/0", null,
+                new TextHttpResponseHandler() {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Log.d(TAG, "TextHttpResponseHandler failed");
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String data) {
+                        SearchResult result = gson.fromJson(data, SearchResult.class);
+                        NewsItem newsItemArray = result.data;
+                        ContentValues values = new ContentValues();
 //            values.put()
 //            TODOne: do value put based on db
-            for (int i = 0; i < newsItemArray.getItems().length; i++) {
-                NewsDetail details = newsItemArray.getItems()[i];
-                values.put("title",details.getTitle());
-                values.put("author",details.getAuthor());
-                values.put("body", details.getBody());
-                values.put("preview", details.getPreview());
-                values.put("category", details.getCategory());
-                values.put("thumbnail", details.getThumb());
-                mContentResolver.insert(NewsContentProvider.CONTENT_POPULAR_URI_FULL, values);
-                if (i>19){Log.d(TAG, "Story Added: "+details.getTitle());}
-            }
-        } catch (MalformedURLException e){
-            e.printStackTrace();
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+                        for (int i = 0; i < newsItemArray.getItems().length; i++) {
+                            NewsDetail details = newsItemArray.getItems()[i];
+                            values.put("title",details.getTitle());
+                            values.put("author",details.getAuthor());
+                            values.put("body", details.getBody());
+                            values.put("preview", details.getPreview());
+                            values.put("category", details.getCategory());
+                            values.put("thumbnail", details.getThumb());
+                            mContentResolver.insert(NewsContentProvider.CONTENT_POPULAR_URI_FULL, values);
+                            if (i>19){Log.d(TAG, "Story Added: "+details.getTitle());}
+                        }
+                    }
+                });
     }
 
     private String getInputData(InputStream inStream) throws IOException {
