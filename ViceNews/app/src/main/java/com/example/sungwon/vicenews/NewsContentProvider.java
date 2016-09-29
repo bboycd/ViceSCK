@@ -93,7 +93,7 @@ public class NewsContentProvider extends ContentProvider {
                 endPoint = ARTICLES_RECENT_TABLE;
                 break;
             case ARTICLES_RECENT_ID:
-                //TODO: Make query for Recent articles
+
 //                cursor = myDB.getRecentArticles(selection, selectionArgs);
                 break;
             case ARTICLES_POPULAR:
@@ -102,7 +102,6 @@ public class NewsContentProvider extends ContentProvider {
                 endPoint = ARTICLES_POPULAR_TABLE;
                 break;
             case ARTICLES_POPULAR_ID:
-                //TODO: Make query for pop art
 //                cursor = myDB.getPopularArticles(uri.getLastPathSegment());
                 break;
             default:
@@ -114,9 +113,16 @@ public class NewsContentProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String s, String[] strings) {
+    public int delete(Uri uri, String selection, String[] args) {
         //TODO: delete both tables
-        return 0;
+        int rowsDeleted = 0;
+
+        myDB.deleteAllArticlesPopular();
+        rowsDeleted = myDB.deleteAllArticlesLatest();
+
+        getContext().getContentResolver().notifyChange(uri,null);
+
+        return rowsDeleted;
     }
 
     @Override
