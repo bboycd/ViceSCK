@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebView;
 
+import static com.android.volley.Request.Method.HEAD;
+
 public class DetailActivity extends AppCompatActivity {
 
     @Override
@@ -20,6 +22,7 @@ public class DetailActivity extends AppCompatActivity {
         //TODO TRANSISTION ANIMATION
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         Intent intent = new Intent();
+
         //WEBVIEW
         WebView webview = new WebView(this);
         String html = intent.getStringExtra("body");
