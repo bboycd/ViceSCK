@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         /* Instantiating for SyncAdapter*/
         mAccount = createSyncAccount(this);
 
@@ -332,6 +334,8 @@ public class MainActivity extends AppCompatActivity {
             mRecyclerView.setHasFixedSize(true);
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(mLayoutManager);
+//        mAdapter = new RecyclerViewAdapter();
+
             mAdapter = new RecyclerViewAdapter(getContext(), dummycursor);
 
             mRecyclerView.setAdapter(mAdapter);

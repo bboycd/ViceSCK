@@ -3,7 +3,6 @@ package com.example.sungwon.vicenews;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,10 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewAdapter.ViewHolder> {
+    Context context;
 
     public RecyclerViewAdapter(Context context, Cursor cursor) {
+
         super(context, cursor);
+        this.context = context;
     }
 
 
@@ -35,7 +39,9 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
             imageView = (ImageView) view.findViewById(R.id.imageView);
             cardView = (CardView) view.findViewById(R.id.cardView);
         }
+
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -51,7 +57,7 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
         viewHolder.textView.setText(cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_TITLE)));
 //        viewHolder.textDetailView.setText(cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_BODY)));
         //TODO: WILL THIS WORK?
-        viewHolder.imageView.setImageURI(Uri.parse(ViceDBHelper.VICENEWS_THUMBNAIL));
+        Picasso.with(context).load(cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_THUMBNAIL))).into(viewHolder.imageView);
     }
 
 }
