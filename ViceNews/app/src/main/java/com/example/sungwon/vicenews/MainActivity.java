@@ -316,9 +316,8 @@ public class MainActivity extends AppCompatActivity {
             mRecyclerView.setHasFixedSize(true);
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(mLayoutManager);
-//        mAdapter = new RecyclerViewAdapter(dataSet);
-
-//            mRecyclerView.setAdapter(mAdapter);
+//        mAdapter = new RecyclerViewAdapter();
+            mRecyclerView.setAdapter(mAdapter);
 
             switch (mPage){
                 case(1)://top

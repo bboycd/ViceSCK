@@ -35,7 +35,9 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
             imageView = (ImageView) view.findViewById(R.id.imageView);
             cardView = (CardView) view.findViewById(R.id.cardView);
         }
+
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
