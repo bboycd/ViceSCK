@@ -43,7 +43,7 @@
         <provider
             android:name=".NewsContentProvider"
             android:authorities="com.example.sungwon.vicenews.NewsContentProvider"
-            android:label="my provider"
+            android:label="my recent provider"
             android:exported="false"
             android:syncable="true"/>
 
