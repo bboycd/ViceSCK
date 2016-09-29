@@ -18,8 +18,8 @@ public class ViceDBHelper extends SQLiteOpenHelper{
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "ViceNews.db";
     //instantiating columns in database
-    public static final String DATABASE_TABLE_NAME_LATEST = "ViceNewsLatest";
-    public static final String DATABASE_TABLE_NAME_POPULAR = "ViceNewsPopular";
+    public static final String DATABASE_TABLE_NAME_LATEST = "getlatest";
+    public static final String DATABASE_TABLE_NAME_POPULAR = "getmostpopular";
     public static final String VICENEWS_COLUMN_ID = "_id";
     public static final String VICENEWS_TITLE = "title";
     public static final String VICENEWS_AUTHOR = "author";

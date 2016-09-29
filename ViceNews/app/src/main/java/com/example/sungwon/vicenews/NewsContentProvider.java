@@ -50,16 +50,16 @@ public class NewsContentProvider extends ContentProvider {
 
         switch (uriType) {
             case ARTICLES_RECENT:
-                //TODO: Make query for Recent articles auto set to 0
-//                cursor = myDB.getRecentArticles(uri.getLastPathSegment());
+                //TODOne: Make query for Recent articles auto set to 0
+                cursor = myDB.getRecentArticles(uri.getLastPathSegment(), null);
                 break;
             case ARTICLES_RECENT_ID:
                 //TODO: Make query for Recent articles
 //                cursor = myDB.getRecentArticles(selection, selectionArgs);
                 break;
             case ARTICLES_POPULAR:
-                //TODO: Make query for popular articles auto set to 0
-//                cursor = myDB.getPopularArticles(uri.getLastPathSegment());
+                //TODOne: Make query for popular articles auto set to 0
+                cursor = myDB.getPopularArticles(uri.getLastPathSegment(), null);
                 break;
             case ARTICLES_POPULAR_ID:
                 //TODO: Make query for pop art
@@ -84,6 +84,7 @@ public class NewsContentProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
         //TODO: put a switch case based on endpoint of our URI
+
         return null;
         //TODO: put content resolver notify change method at the end
     }
