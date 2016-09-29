@@ -82,7 +82,23 @@ public class MainActivity extends AppCompatActivity {
         mAccount = createSyncAccount(this);
 
         getContentResolver().registerContentObserver(NewsContentProvider.CONTENT_RECENT_URI,true,new NewsContentObserver(new Handler()));
-        getContentResolver().registerContentObserver(NewsPopularProvider.CONTENT_POPULAR_URI,true,new NewsContentObserver(new Handler()));
+        Bundle settingsBundle = new Bundle();
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        settingsBundle.putBoolean(
+                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        /*
+         * Request the sync for the default account, authority, and
+         * manual sync settings4
+         */
+        ContentResolver.requestSync(mAccount, AUTHORITY, settingsBundle);
+
+        ContentResolver.setSyncAutomatically(mAccount,AUTHORITY,true);
+        ContentResolver.addPeriodicSync(
+                mAccount,
+                AUTHORITY,
+                Bundle.EMPTY,
+                3600);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
