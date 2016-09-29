@@ -3,11 +3,8 @@ package com.example.sungwon.vicenews;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import static android.database.DatabaseUtils.dumpCursor;
 
 /**
  * Created by Owen on 9/26/2016.
@@ -15,11 +12,11 @@ import static android.database.DatabaseUtils.dumpCursor;
 
 public class ViceDBHelper extends SQLiteOpenHelper{
     //instantiating database
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "ViceNews.db";
     //instantiating columns in database
-    public static final String DATABASE_TABLE_NAME_LATEST = "ViceNewsLatest";
-    public static final String DATABASE_TABLE_NAME_POPULAR = "ViceNewsPopular";
+    public static final String DATABASE_TABLE_NAME_LATEST = "getlatest";
+    public static final String DATABASE_TABLE_NAME_POPULAR = "getmostpopular";
     public static final String VICENEWS_COLUMN_ID = "_id";
     public static final String VICENEWS_TITLE = "title";
     public static final String VICENEWS_AUTHOR = "author";
@@ -107,13 +104,11 @@ public class ViceDBHelper extends SQLiteOpenHelper{
     public Cursor getRecentArticles(String selection, String[] selectionArgs) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(DATABASE_TABLE_NAME_LATEST,VICENEWS_COLUMNS,selection,selectionArgs,null,null,null);
-        dumpCursor(cursor);
         return cursor;
     }
     public Cursor getPopularArticles(String selection, String[] selectionArgs) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(DATABASE_TABLE_NAME_POPULAR,VICENEWS_COLUMNS,selection,selectionArgs,null,null,null);
-        dumpCursor(cursor);
         return cursor;
     }
 
@@ -159,7 +154,6 @@ public class ViceDBHelper extends SQLiteOpenHelper{
                         null);
                 break;
         }
-            DatabaseUtils.dumpCursor(scursor);
             return scursor;
 
     }
@@ -173,7 +167,6 @@ public class ViceDBHelper extends SQLiteOpenHelper{
                 null,
                 null,
                 null);
-        dumpCursor(dcursor);
         return dcursor;
     }
     public Cursor detailsArticlesPopular(int id){
@@ -185,7 +178,6 @@ public class ViceDBHelper extends SQLiteOpenHelper{
                 null,
                 null,
                 null);
-        dumpCursor(dcursor);
         return dcursor;
     }
 

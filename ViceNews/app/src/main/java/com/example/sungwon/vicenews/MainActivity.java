@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 mAccount,
                 AUTHORITY,
                 Bundle.EMPTY,
-                3600);
+                10000);//set the time
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -154,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
             PlaceholderFragment frag = (PlaceholderFragment)getSupportFragmentManager().findFragmentById(R.id.container);
             frag.fragChangeCursor();
 
+            //sends setting values to resolver
             Bundle bundle = new Bundle();
             bundle.putString("page", frag.getURLEndpoint());
 
@@ -326,14 +327,14 @@ public class MainActivity extends AppCompatActivity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 //            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-
+            Cursor dummycursor = null;
             mRecyclerView = (RecyclerView) rootView.findViewById(recyclerView);
             mRecyclerView.setHasFixedSize(true);
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(mLayoutManager);
-//        mAdapter = new RecyclerViewAdapter(dataSet);
+            mAdapter = new RecyclerViewAdapter(getContext(), dummycursor);
 
-//            mRecyclerView.setAdapter(mAdapter);
+            mRecyclerView.setAdapter(mAdapter);
 
             switch (mPage){
                 case(1)://top
@@ -350,6 +351,7 @@ public class MainActivity extends AppCompatActivity {
                 case(3):
                     /* mostly for shared pref and settings*/
 //                    textView.setText("custom");
+                    fragChangeCursor();
                     break;
             }
 
@@ -361,13 +363,18 @@ public class MainActivity extends AppCompatActivity {
             switch (mPage){
                 case(1)://top
                     String top = "getmostpopular/";
-                    //TODO: get the right cursor to reinsert to RecyclerView
+                    cursor = getActivity().getContentResolver().query(NewsContentProvider.CONTENT_POPULAR_URI_FULL,null,null,null,null);
+                    mAdapter.changeCursor(cursor);
+                    //TODOne?: get the right cursor to reinsert to RecyclerView
                     break;
                 case(2)://latest
                     String latest = "getlatest/";
+                    cursor = getActivity().getContentResolver().query(NewsContentProvider.CONTENT_RECENT_URI_FULL,null,null,null,null);
+                    mAdapter.changeCursor(cursor);
                     break;
                 case(3):
                     /* mostly for shared pref*/
+                    mAdapter.changeCursor(cursor);
                     break;
             }
             mAdapter.changeCursor(cursor);
