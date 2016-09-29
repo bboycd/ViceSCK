@@ -26,6 +26,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     Account mAccount;
     ContentResolver mResolver;
+
     private final NewsContentObserver contentObserver = new NewsContentObserver(new Handler());
 
     public static final int NOTIFICATION = 1;
@@ -312,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
         private RecyclerView mRecyclerView;
         RecyclerViewAdapter mAdapter;
         private StaggeredGridLayoutManager mLayoutManager;
+        private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
 
@@ -350,9 +353,54 @@ public class MainActivity extends AppCompatActivity {
             mRecyclerView.setHasFixedSize(true);
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(mLayoutManager);
+            //TODO INSERT METHODS FOR SWIPE TO REFRESH
+//            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//                @Override
+//                public void onRefresh() {
+//                    refreshItems();
+//                }
+//
+//                void refreshItems() {
+//                    // Load items
+//                    // Load complete
+//                    onItemsLoadComplete();
+//                }
+//
+//                void onItemsLoadComplete() {
+//                    // Update the adapter and notify data set changed
+//                    // Stop refresh animation
+//                    mSwipeRefreshLayout.setRefreshing(false);
+//                }
+//            });
+//            // Configure the refreshing colors
+//            mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+//                    android.R.color.holo_green_light,
+//                    android.R.color.holo_orange_light,
+//                    android.R.color.holo_red_light);
+
+//        public void fetchTimelineAsync(int page) {
+//            // Send the network request to fetch the updated data
+//            // `client` here is an instance of Android Async HTTP
+//            client.getHomeTimeline(0, new JsonHttpResponseHandler() {
+//                public void onSuccess(JSONArray json) {
+//                    // Remember to CLEAR OUT old items before appending in the new ones
+//                    adapter.clear();
+//                    // ...the data has come back, add new items to your adapter...
+//                    adapter.addAll(...);
+//                    // Now we call setRefreshing(false) to signal refresh has finished
+//                    swipeContainer.setRefreshing(false);
+//                }
+//
+//                public void onFailure(Throwable e) {
+//                    Log.d("DEBUG", "Fetch timeline error: " + e.toString());
+//                }
+//            });
 
 
-            mAdapter = new RecyclerViewAdapter(getContext(), dummycursor);
+
+
+
+                mAdapter = new RecyclerViewAdapter(getContext(), dummycursor);
 
             mRecyclerView.setAdapter(mAdapter);
 
