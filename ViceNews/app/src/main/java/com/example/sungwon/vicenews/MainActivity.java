@@ -40,7 +40,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -223,24 +222,24 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            Cursor cursor2 = ViceDBHelper.getInstance(this).searchArticles(query, "latest");
-            Cursor cursor3 = ViceDBHelper.getInstance(this).searchArticles(query, "popular");
-
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        handleIntent(intent);
+//    }
+//
+//    private void handleIntent(Intent intent) {
+//        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+//            String query = intent.getStringExtra(SearchManager.QUERY);
+//            Cursor cursor2 = ViceDBHelper.getInstance(this).searchArticles(query, "latest");
+//            Cursor cursor3 = ViceDBHelper.getInstance(this).searchArticles(query, "popular");
+//
 //            madapter.changeCursor(cursor2);
-
-            Toast.makeText(MainActivity.this, "Searching for " + query, Toast.LENGTH_SHORT).show();
-
-
-        }
-    }
+//
+//            Toast.makeText(MainActivity.this, "Searching for " + query, Toast.LENGTH_SHORT).show();
+//
+//
+//        }
+//    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
