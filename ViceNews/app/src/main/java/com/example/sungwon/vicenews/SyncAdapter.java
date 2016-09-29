@@ -7,7 +7,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SyncResult;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -27,12 +26,13 @@ import java.net.URL;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
+    private static String TAG = SyncAdapter.class.getCanonicalName();
+
     ContentResolver mContentResolver;
 
     private static final String AUTHORITY = "com.example.sungwon.vicenews.NewsContentProvider";
     private static final String STOCKS_TABLE = ViceDBHelper.DATABASE_TABLE_NAME_LATEST;
-    public static final Uri SYMBOLS_CONTENT_URI = Uri.parse("content://"
-            + AUTHORITY + "/" + STOCKS_TABLE + "/symbols");
+
 
     public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs, ContentResolver mContentResolver) {
         super(context, autoInitialize, allowParallelSyncs);
@@ -72,14 +72,25 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             SearchResult result = gson.fromJson(data, SearchResult.class);
             NewsItem newsItemArray = result.data;
             ContentValues values = new ContentValues();
-            int i = newsItemArray.items.length;
-//            TODO:To insert value
+//            int i = newsItemArray.items.length;
+//            TODOne:To insert value
 //            this is all in a for loop
 //            NewsDetail details = newsItemArray.items[i];
 //            String something = details.getSomeString;
 //            values.insert???(key value which is the same as the column in DB, something);
 // values.put()
 //            mContentResolver.insert()
+            for (int i = 0; i < newsItemArray.getItems().length; i++) {
+                NewsDetail details = newsItemArray.getItems()[i];
+                values.put("title",details.getTitle());
+                values.put("author",details.getAuthor());
+                values.put("body", details.getBody());
+                values.put("preview", details.getPreview());
+                values.put("category", details.getCategory());
+                values.put("thumbnail", details.getThumb());
+                mContentResolver.insert(NewsContentProvider.CONTENT_RECENT_URI_FULL, values);
+                if (i>19){Log.d(TAG, "Story Added: "+details.getTitle());}
+            }
         } catch (MalformedURLException e){
             e.printStackTrace();
         } catch (IOException e){
@@ -103,7 +114,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             NewsItem newsItemArray = result.data;
             ContentValues values = new ContentValues();
 //            values.put()
-//            TODO: do value put based on db
+//            TODOne: do value put based on db
+            for (int i = 0; i < newsItemArray.getItems().length; i++) {
+                NewsDetail details = newsItemArray.getItems()[i];
+                values.put("title",details.getTitle());
+                values.put("author",details.getAuthor());
+                values.put("body", details.getBody());
+                values.put("preview", details.getPreview());
+                values.put("category", details.getCategory());
+                values.put("thumbnail", details.getThumb());
+                mContentResolver.insert(NewsContentProvider.CONTENT_POPULAR_URI_FULL, values);
+                if (i>19){Log.d(TAG, "Story Added: "+details.getTitle());}
+            }
         } catch (MalformedURLException e){
             e.printStackTrace();
         } catch (IOException e){
