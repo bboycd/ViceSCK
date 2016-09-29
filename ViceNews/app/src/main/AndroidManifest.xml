@@ -47,13 +47,6 @@
             android:exported="false"
             android:syncable="true"/>
 
-        <provider
-            android:name=".NewsPopularProvider"
-            android:authorities="com.example.sungwon.vicenews.NewsPopularProvider"
-            android:label="my popular provider"
-            android:exported="false"
-            android:syncable="true"/>
-
         <service
             android:name=".MySyncService">
             <intent-filter>
