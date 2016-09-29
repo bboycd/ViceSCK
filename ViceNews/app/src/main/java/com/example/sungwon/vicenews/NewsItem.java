@@ -5,7 +5,7 @@ package com.example.sungwon.vicenews;
  */
 public class NewsItem {
 
-    NewsDetail[] items;
+    NewsDetail[] items = new NewsDetail[20];
 
     public NewsDetail[] getItems() {
         return items;

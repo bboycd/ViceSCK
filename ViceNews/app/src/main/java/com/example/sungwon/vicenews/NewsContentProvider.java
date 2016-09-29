@@ -20,6 +20,10 @@ public class NewsContentProvider extends ContentProvider {
 
     public static final Uri CONTENT_RECENT_URI = Uri.parse("content://"
             + AUTHORITY + "/");
+    public static final Uri CONTENT_RECENT_URI_FULL = Uri.parse("content://"
+            + AUTHORITY + "/" + ARTICLES_RECENT_TABLE + "/");
+    public static final Uri CONTENT_POPULAR_URI_FULL = Uri.parse("content://"
+            + AUTHORITY + "/" + ARTICLES_POPULAR_TABLE + "/");
 
     public static final int ARTICLES_RECENT = 1;
     public static final int ARTICLES_RECENT_ID = 2;
@@ -83,7 +87,7 @@ public class NewsContentProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
-        //TODO: put a switch case based on endpoint of our URI
+        //TODOne: put a switch case based on endpoint of our URI
         String endPoint = "";
         int uriType = sURIMatcher.match(uri);
         long id = 0;
@@ -114,7 +118,7 @@ public class NewsContentProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] args) {
-        //TODO: delete both tables
+        //TODOne: delete both tables
         int rowsDeleted = 0;
 
         myDB.deleteAllArticlesPopular();
