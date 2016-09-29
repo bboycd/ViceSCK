@@ -151,8 +151,6 @@ public class MainActivity extends AppCompatActivity {
             //do stuff on UI thread
             Log.d(MainActivity.class.getName(),"Changed observed at "+uri);
 
-            //TODO: update sht
-
             PlaceholderFragment frag = (PlaceholderFragment)getSupportFragmentManager().findFragmentById(R.id.container);
             frag.fragChangeCursor();
 
@@ -341,10 +339,13 @@ public class MainActivity extends AppCompatActivity {
                 case(1)://top
                     String top = "getmostpopular/";
 //                    textView.setText(top);
+//                    also return cursor and swapadapter?
+                    fragChangeCursor();
                     break;
                 case(2)://latest
                     String latest = "getlatest/";
 //                    textView.setText(latest);
+                    fragChangeCursor();
                     break;
                 case(3):
                     /* mostly for shared pref and settings*/
@@ -360,6 +361,7 @@ public class MainActivity extends AppCompatActivity {
             switch (mPage){
                 case(1)://top
                     String top = "getmostpopular/";
+                    //TODO: get the right cursor to reinsert to RecyclerView
                     break;
                 case(2)://latest
                     String latest = "getlatest/";
