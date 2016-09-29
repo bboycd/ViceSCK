@@ -84,8 +84,32 @@ public class NewsContentProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
         //TODO: put a switch case based on endpoint of our URI
-
-        return null;
+        String endPoint = "";
+        int uriType = sURIMatcher.match(uri);
+        long id = 0;
+        switch(uriType){
+            case ARTICLES_RECENT:
+                id = myDB.addArticleLatest(contentValues);
+                endPoint = ARTICLES_RECENT_TABLE;
+                break;
+            case ARTICLES_RECENT_ID:
+                //TODO: Make query for Recent articles
+//                cursor = myDB.getRecentArticles(selection, selectionArgs);
+                break;
+            case ARTICLES_POPULAR:
+                //TODOne: Make query for popular articles auto set to 0
+                id = myDB.addArticlePopular(contentValues);
+                endPoint = ARTICLES_POPULAR_TABLE;
+                break;
+            case ARTICLES_POPULAR_ID:
+                //TODO: Make query for pop art
+//                cursor = myDB.getPopularArticles(uri.getLastPathSegment());
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown URI: " + uri);
+        }
+        getContext().getContentResolver().notifyChange(uri, null);
+        return Uri.parse(endPoint + "/" + id);
         //TODO: put content resolver notify change method at the end
     }
 
