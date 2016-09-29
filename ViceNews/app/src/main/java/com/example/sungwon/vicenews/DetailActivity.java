@@ -17,7 +17,7 @@ public class DetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //TODO TRANSISTION ANIMATION
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
         //WEBVIEW
         WebView webview = new WebView(this);

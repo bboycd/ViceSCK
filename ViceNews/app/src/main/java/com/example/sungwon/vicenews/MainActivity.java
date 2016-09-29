@@ -31,6 +31,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.transition.ChangeTransform;
+import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -76,9 +78,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
+
+            TransitionSet transition = new TransitionSet();
+            transition.addTransition(new ChangeTransform());
+            getWindow().setSharedElementEnterTransition(transition);
+            getWindow().setSharedElementReturnTransition(transition);
+        }
         setContentView(R.layout.activity_main);
-
-
 
         /* Instantiating for SyncAdapter*/
         mAccount = createSyncAccount(this);
@@ -334,7 +342,7 @@ public class MainActivity extends AppCompatActivity {
             mRecyclerView.setHasFixedSize(true);
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(mLayoutManager);
-//        mAdapter = new RecyclerViewAdapter();
+
 
             mAdapter = new RecyclerViewAdapter(getContext(), dummycursor);
 
