@@ -12,11 +12,11 @@
         android:id="@+id/cardView"
         card_view:cardElevation="14dp"
         card_view:contentPadding="0dp"
-        android:layout_marginLeft="0.8dp"
-        android:layout_marginRight="0.8dp"
-        android:layout_marginTop="0.8dp"
-        android:layout_marginBottom="0.8dp"
-        card_view:cardCornerRadius="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+        card_view:cardCornerRadius="7dp"
         android:layout_weight="91.38">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
             android:textStyle="bold"
             android:id="@+id/textView"
             android:background="@color/cardview_shadow_start_color"
-            />
+            android:backgroundTint="?attr/colorPrimary" />
 
             <!--<TextView-->
                 <!--android:text="Detail"-->
