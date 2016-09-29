@@ -8,27 +8,27 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 
 /**
- * Created by SungWon on 9/26/2016.
+ * Created by SungWon on 9/28/2016.
  */
 
-public class NewsContentProvider extends ContentProvider {
+public class NewsPopularProvider extends ContentProvider {
 
     private ViceDBHelper myDB;
-    private static final String AUTHORITY = "com.example.sungwon.vicenews.NewsContentProvider";
+    private static final String AUTHORITY = "com.example.sungwon.vicenews.NewsPopularProvider";
 
-    private static final String ARTICLES_RECENT_TABLE = ViceDBHelper.DATABASE_TABLE_NAME_LATEST;
+    private static final String ARTICLES_POPULAR_TABLE = ViceDBHelper.DATABASE_TABLE_NAME_POPULAR;
 
-    public static final Uri CONTENT_RECENT_URI = Uri.parse("content://"
-            + AUTHORITY + "/" + ARTICLES_RECENT_TABLE);
+    public static final Uri CONTENT_POPULAR_URI = Uri.parse("content://"
+            + AUTHORITY + "/" + ARTICLES_POPULAR_TABLE);
 
-    public static final int ARTICLES_RECENT = 1;
-    public static final int ARTICLES_RECENT_ID = 2;
+    public static final int ARTICLES_POPULAR = 1;
+    public static final int ARTICLES_POPULAR_ID = 2;
 
     private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        sURIMatcher.addURI(AUTHORITY, ARTICLES_RECENT_TABLE, ARTICLES_RECENT);
-        sURIMatcher.addURI(AUTHORITY, ARTICLES_RECENT_TABLE + "/#", ARTICLES_RECENT_ID);
+        sURIMatcher.addURI(AUTHORITY, ARTICLES_POPULAR_TABLE, ARTICLES_POPULAR);
+        sURIMatcher.addURI(AUTHORITY, ARTICLES_POPULAR_TABLE + "/#", ARTICLES_POPULAR_ID);
     }
 
     @Override
@@ -39,19 +39,19 @@ public class NewsContentProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(Uri uri, String[] strings, String s, String[] strings1, String s1) {
         int uriType = sURIMatcher.match(uri);
 
         Cursor cursor = null;
 
         switch (uriType) {
-            case ARTICLES_RECENT:
-                //TODO: Make query for Recent articles auto set to 0
-//                cursor = myDB.getRecentArticles(uri.getLastPathSegment());
+            case ARTICLES_POPULAR:
+                //TODO: Make query for popular articles auto set to 0
+//                cursor = myDB.getPopularArticles(uri.getLastPathSegment());
                 break;
-            case ARTICLES_RECENT_ID:
-                //TODO: Make query for Recent articles
-//                cursor = myDB.getRecentArticles(selection, selectionArgs);
+            case ARTICLES_POPULAR_ID:
+                //TODO: Make query for pop art
+//                cursor = myDB.getPopularArticles(uri.getLastPathSegment());
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI");
