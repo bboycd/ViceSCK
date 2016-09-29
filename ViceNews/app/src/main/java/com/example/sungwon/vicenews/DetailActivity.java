@@ -1,5 +1,6 @@
 package com.example.sungwon.vicenews;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -18,11 +19,12 @@ public class DetailActivity extends AppCompatActivity {
 
         //TODO TRANSISTION ANIMATION
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
+        Intent intent = new Intent();
         //WEBVIEW
         WebView webview = new WebView(this);
+        String html = intent.getStringExtra("body");
         setContentView(webview);
-        webview.loadUrl("");
+        webview.loadData(html, "text/html", null);
 
         FloatingActionButton fab_share = (FloatingActionButton) findViewById(R.id.fab_share);
         fab_share.setOnClickListener(new View.OnClickListener() {
