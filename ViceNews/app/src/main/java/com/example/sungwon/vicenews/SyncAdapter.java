@@ -72,8 +72,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             SearchResult result = gson.fromJson(data, SearchResult.class);
             NewsItem newsItemArray = result.data;
             ContentValues values = new ContentValues();
-//            values.put()
-//            TODO: do value put based on db
+            int i = newsItemArray.items.length;
+//            TODO:To insert value
+//            this is all in a for loop
+//            NewsDetail details = newsItemArray.items[i];
+//            String something = details.getSomeString;
+//            values.insert???(key value which is the same as the column in DB, something);
+// values.put()
+//            mContentResolver.insert()
         } catch (MalformedURLException e){
             e.printStackTrace();
         } catch (IOException e){

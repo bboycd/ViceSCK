@@ -90,6 +90,7 @@ public class NewsContentProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String s, String[] strings) {
+        //TODO: delete both tables
         return 0;
     }
 
