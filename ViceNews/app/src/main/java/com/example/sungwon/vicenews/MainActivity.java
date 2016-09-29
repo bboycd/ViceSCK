@@ -334,12 +334,10 @@ public class MainActivity extends AppCompatActivity {
             mRecyclerView.setHasFixedSize(true);
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(mLayoutManager);
-<<<<<<< HEAD
 //        mAdapter = new RecyclerViewAdapter();
-=======
+
             mAdapter = new RecyclerViewAdapter(getContext(), dummycursor);
 
->>>>>>> 05d23bdeb16ef4b1a4df1031a3e13f753574fef0
             mRecyclerView.setAdapter(mAdapter);
 
             switch (mPage){
