@@ -61,14 +61,8 @@ public class DetailActivity extends AppCompatActivity {
 //            public void onClick(View view) {
 //            }
 //        });
-//
-//        FloatingActionButton fab_readLater = (FloatingActionButton) findViewById(R.id.fab_readLater);
-//        fab_readLater.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
+
+
     }
     private void setFadeAnimation(View view) {
         AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
