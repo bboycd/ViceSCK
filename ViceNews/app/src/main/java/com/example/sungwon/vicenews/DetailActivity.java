@@ -37,14 +37,13 @@ public class DetailActivity extends AppCompatActivity {
         String title = intent.getStringExtra("title");
         String html = intent.getStringExtra("body");
         String url = intent.getStringExtra("image");
-//        webview.getSettings().setLoadWithOverviewMode(true);
-//        webview.getSettings().setUseWideViewPort(true);
-//        webview.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-//        webview.setScrollbarFadingEnabled(false);
+        webview.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        webview.setScrollbarFadingEnabled(false);
         webview.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webview.loadData(html, null, null);
         Picasso.with(DetailActivity.this).load(url).fit().into(mImageView);
         mTitleText.setText(title);
+
 
 //        FloatingActionButton fab_share = (FloatingActionButton) findViewById(R.id.fab_share);
 //        fab_share.setOnClickListener(new View.OnClickListener() {
