@@ -30,10 +30,25 @@
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            <ImageView
+                android:id="@+id/imageView_Detail"
+                android:transitionName="imageViewTransition"
+                android:scaleType="centerCrop"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom" />
+                android:textSize="20dp"
+                android:textColor="#fafafa"
+                android:background="@color/cardview_shadow_start_color"
+                android:backgroundTint="?attr/colorPrimary"
+                android:fontFamily="sans-serif-smallcaps"
+                android:textStyle="bold"
+                android:id="@+id/titleText"
+                android:layout_gravity="bottom"
+                android:paddingBottom="16dp"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -42,39 +57,18 @@
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/imageView_Detail"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:transitionName="imageView"
-                    android:background="@drawable/multi" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|left"
-                    android:textSize="20dp"
-                    android:id="@+id/titleText"
-                    />
-            </FrameLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <include
         layout="@layout/content_detail"
         android:visibility="visible"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        android:layout_height="0dp"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="403dp"
         android:id="@+id/include"
-        android:layout_marginTop="180dp"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_share"

@@ -2,9 +2,6 @@ package com.example.sungwon.vicenews;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -12,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +20,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -178,35 +173,30 @@ public class MainActivity extends AppCompatActivity {
             bundle.putString("page", frag.getURLEndpoint());
 
             mResolver.requestSync(mAccount, AUTHORITY, bundle);
+            bigPictureNotification();
 
 
             String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
             Log.d(TAG, "Last updated: "+currentDateTimeString);
         }
     }
-
     //NOTIFICATION
     private void bigPictureNotification (){
-        NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
-        bigPictureStyle.bigPicture(BitmapFactory.decodeResource(getResources(),R.drawable.multi)).build();
 
-        Intent intent = new Intent(this, MainActivity.class);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.drawable.fire);
-        builder.setContentTitle("title");
-        builder.setContentText("description");
-        builder.setAutoCancel(true);
-        builder.setStyle(bigPictureStyle);
-        builder.setContentIntent(pendingIntent);
-        builder.setPriority(Notification.PRIORITY_MAX);
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(NOTIFICATION, builder.build());
+//        Intent intent = new Intent(this, MainActivity.class);
+//
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+//        builder.setSmallIcon(R.drawable.fire);
+//        builder.setContentTitle("title");
+//        builder.setContentText("description");
+//        builder.setAutoCancel(true);
+//        builder.setStyle(bigPictureStyle);
+//        builder.setContentIntent(pendingIntent);
+//        builder.setPriority(Notification.PRIORITY_MAX);
+//        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        manager.notify(NOTIFICATION, builder.build());
     }
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
