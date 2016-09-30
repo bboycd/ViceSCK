@@ -2,10 +2,10 @@ package com.example.sungwon.vicenews;
 
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -62,7 +62,7 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
     private final static int FADE_DURATION = 700;
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
+    public void onBindViewHolder(final ViewHolder viewHolder, Cursor cursor) {
 
         viewHolder.textView.setText(cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_TITLE)));
 //        viewHolder.textDetailView.setText(cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_BODY)));
@@ -79,7 +79,9 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
         //INTENT TO DETAIL VIEW
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View view) {
+            public void onClick(View view) {
+
+
                 Intent intent = new Intent(view.getContext(), DetailActivity.class);
                 Cursor cursor = getCursor();
                 int position = ((Integer) view.getTag()).intValue();
@@ -92,8 +94,9 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
                 intent.putExtra("image", image);
 
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+
                     View image2 = view.findViewById(R.id.imageView);
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) view.getContext()), image2, "imageViewTransition");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(((Activity) view.getContext()), image2, "imageViewTransition");
                     view.getContext().startActivity(intent, options.toBundle());
                 }else{
                     view.getContext().startActivity(intent);
@@ -101,7 +104,7 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
             }
         });
     }
-
+//ANIMATIONS
     private void setFadeAnimation(View view) {
         AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(FADE_DURATION);
