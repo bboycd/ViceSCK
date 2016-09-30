@@ -2,9 +2,6 @@ package com.example.sungwon.vicenews;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -185,21 +182,20 @@ public class MainActivity extends AppCompatActivity {
     }
     //NOTIFICATION
     private void bigPictureNotification (){
-        Intent intent = new Intent(this, SecondActivity.class);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, (stuff), intent, 0);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.serSmallIcon(R.mipmap.ic_launcher):
-        builder.serContentTitle("blah");
-        builder.setContentText("hello");
-        builder.setAutoCancel(true);
-        builder.setContentIntent(pendingIntent);
-        builder.setPriority(Notification.PRIORITY_MAX);
-
-        NoificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(NOTIFICATION_ID, builder.build());
-
+//        Intent intent = new Intent(this, MainActivity.class);
+//
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+//        builder.setSmallIcon(R.drawable.fire);
+//        builder.setContentTitle("title");
+//        builder.setContentText("description");
+//        builder.setAutoCancel(true);
+//        builder.setStyle(bigPictureStyle);
+//        builder.setContentIntent(pendingIntent);
+//        builder.setPriority(Notification.PRIORITY_MAX);
+//        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        manager.notify(NOTIFICATION, builder.build());
     }
 
     @Override
