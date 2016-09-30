@@ -11,10 +11,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.Random;
 
 public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewAdapter.ViewHolder> {
     Context context;
@@ -54,6 +59,8 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
         return viewHolder;
     }
 
+    private final static int FADE_DURATION = 700;
+
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, Cursor cursor) {
 
@@ -62,6 +69,9 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
         //TODO: WILL THIS WORK?
         Picasso.with(context).load(cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_THUMBNAIL))).into(viewHolder.imageView);
 
+        setFadeAnimation(viewHolder.cardView);
+        setScaleAnimation(viewHolder.cardView);
+        setAnimation(viewHolder.cardView, lastPosition);
 
 
         final Integer position = cursor.getPosition();
@@ -83,13 +93,35 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
 
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     View image2 = view.findViewById(R.id.imageView);
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) view.getContext()), image2, "imageView");
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(((Activity) view.getContext()), image2, "imageViewTransition");
                     view.getContext().startActivity(intent, options.toBundle());
                 }else{
                     view.getContext().startActivity(intent);
                 }
             }
         });
+    }
+
+    private void setFadeAnimation(View view) {
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(FADE_DURATION);
+        view.startAnimation(anim);
+    }
+    private void setScaleAnimation(View view) {
+        ScaleAnimation anim = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        anim.setDuration(FADE_DURATION);
+        view.startAnimation(anim);
+    }
+    private int lastPosition = -1;
+
+    private void setAnimation(View viewToAnimate, int position) {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition) {
+            ScaleAnimation anim = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            anim.setDuration(new Random().nextInt(501));//to make duration random number between [0,501)
+            viewToAnimate.startAnimation(anim);
+            lastPosition = position;
+        }
     }
 
 }
