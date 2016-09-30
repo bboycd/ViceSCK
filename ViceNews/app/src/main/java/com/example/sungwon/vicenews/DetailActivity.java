@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import static com.android.volley.Request.Method.HEAD;
+
 public class DetailActivity extends AppCompatActivity {
 
     TextView mTitleText;
@@ -28,7 +30,9 @@ public class DetailActivity extends AppCompatActivity {
 
 
         //TODO TRANSISTION ANIMATION
+
 //        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
         Intent intent = getIntent();
 
         //WEBVIEW
