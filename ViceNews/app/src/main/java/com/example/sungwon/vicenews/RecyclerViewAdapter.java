@@ -59,6 +59,8 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
         return viewHolder;
     }
 
+
+
     private final static int FADE_DURATION = 700;
 
     @Override

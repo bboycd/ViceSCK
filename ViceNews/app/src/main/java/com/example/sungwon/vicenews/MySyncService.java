@@ -18,6 +18,7 @@ public class MySyncService extends Service {
         synchronized (sSyncAdapterLock) {
             if (sSyncAdapter == null)
                 sSyncAdapter = new SyncAdapter(getApplicationContext(), true);
+
         }
     }
 
