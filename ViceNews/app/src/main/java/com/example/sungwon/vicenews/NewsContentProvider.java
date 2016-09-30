@@ -17,6 +17,7 @@ public class NewsContentProvider extends ContentProvider {
     private static final String AUTHORITY = "com.example.sungwon.vicenews.NewsContentProvider";
     private static final String ARTICLES_RECENT_TABLE = ViceDBHelper.DATABASE_TABLE_NAME_LATEST;
     private static final String ARTICLES_POPULAR_TABLE = ViceDBHelper.DATABASE_TABLE_NAME_POPULAR;
+    private static final String ARTICLES_CATEGORY_TABLE = ViceDBHelper.DATABASE_TABLE_NAME_CATEGORY;
 
     public static final Uri CONTENT_RECENT_URI = Uri.parse("content://"
             + AUTHORITY + "/");
@@ -24,11 +25,15 @@ public class NewsContentProvider extends ContentProvider {
             + AUTHORITY + "/" + ARTICLES_RECENT_TABLE + "/0");
     public static final Uri CONTENT_POPULAR_URI_FULL = Uri.parse("content://"
             + AUTHORITY + "/" + ARTICLES_POPULAR_TABLE + "/0");
+    public static final Uri CONTENT_CATEGORY_URI_FULL = Uri.parse("content://"
+            + AUTHORITY + "/" + ARTICLES_CATEGORY_TABLE + "/0");
 
     public static final int ARTICLES_RECENT = 1;
     public static final int ARTICLES_RECENT_ID = 2;
     public static final int ARTICLES_POPULAR = 3;
     public static final int ARTICLES_POPULAR_ID = 4;
+    public static final int ARTICLES_CATEGORY = 5;
+    public static final int ARTICLES_CATEGORY_ID = 6;
 
     private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -37,6 +42,8 @@ public class NewsContentProvider extends ContentProvider {
         sURIMatcher.addURI(AUTHORITY, ARTICLES_RECENT_TABLE + "/#", ARTICLES_RECENT_ID);
         sURIMatcher.addURI(AUTHORITY, ARTICLES_POPULAR_TABLE, ARTICLES_POPULAR);
         sURIMatcher.addURI(AUTHORITY, ARTICLES_POPULAR_TABLE + "/#", ARTICLES_POPULAR_ID);
+        sURIMatcher.addURI(AUTHORITY, ARTICLES_CATEGORY_TABLE, ARTICLES_CATEGORY);
+        sURIMatcher.addURI(AUTHORITY, ARTICLES_CATEGORY_TABLE + "/#", ARTICLES_CATEGORY_ID);
     }
 
     @Override
@@ -70,6 +77,13 @@ public class NewsContentProvider extends ContentProvider {
                 //TODO: Make query for pop art
 //                cursor = myDB.getPopularArticles(uri.getLastPathSegment());
                 cursor = myDB.getPopularArticles(null, null);
+                break;
+            case ARTICLES_CATEGORY:
+                cursor = myDB.getCategoryArticles(null, null);
+                break;
+            case ARTICLES_CATEGORY_ID:
+                //TODO: Make query for category art
+                cursor = myDB.getCategoryArticles(null, null);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI");
@@ -113,6 +127,14 @@ public class NewsContentProvider extends ContentProvider {
                 id = myDB.addArticlePopular(contentValues);
                 endPoint = ARTICLES_POPULAR_TABLE;
                 break;
+            case ARTICLES_CATEGORY:
+                id = myDB.addArticleCategory(contentValues);
+                endPoint = ARTICLES_CATEGORY_TABLE;
+                break;
+            case ARTICLES_CATEGORY_ID:
+                id = myDB.addArticleCategory(contentValues);
+                endPoint = ARTICLES_CATEGORY_TABLE;
+                break;
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
         }
@@ -128,6 +150,7 @@ public class NewsContentProvider extends ContentProvider {
 
         myDB.deleteAllArticlesPopular();
         rowsDeleted = myDB.deleteAllArticlesLatest();
+        myDB.deleteAllArticlesCategory();
 
         getContext().getContentResolver().notifyChange(uri,null);
 
