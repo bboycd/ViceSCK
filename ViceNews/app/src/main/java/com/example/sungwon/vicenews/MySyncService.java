@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+
 /**
  * Created by SungWon on 9/27/2016.
  */
@@ -18,6 +19,8 @@ public class MySyncService extends Service {
         synchronized (sSyncAdapterLock) {
             if (sSyncAdapter == null)
                 sSyncAdapter = new SyncAdapter(getApplicationContext(), true);
+
+
 
         }
     }

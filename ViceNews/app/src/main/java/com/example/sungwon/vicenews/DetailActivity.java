@@ -4,14 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import static com.android.volley.Request.Method.HEAD;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -35,6 +37,7 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+
         //WEBVIEW
         WebView webview;
         webview = (WebView)findViewById(R.id.webview);
@@ -47,6 +50,9 @@ public class DetailActivity extends AppCompatActivity {
         webview.loadData(html, null, null);
         Picasso.with(DetailActivity.this).load(url).fit().into(mImageView);
         mTitleText.setText(title);
+
+        setFadeAnimation(webview);
+        setScaleAnimation(webview);
 
 
 //        FloatingActionButton fab_share = (FloatingActionButton) findViewById(R.id.fab_share);
@@ -63,5 +69,15 @@ public class DetailActivity extends AppCompatActivity {
 //
 //            }
 //        });
+    }
+    private void setFadeAnimation(View view) {
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(1000);
+        view.startAnimation(anim);
+    }
+    private void setScaleAnimation(View view) {
+        ScaleAnimation anim = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        anim.setDuration(800);
+        view.startAnimation(anim);
     }
 }
