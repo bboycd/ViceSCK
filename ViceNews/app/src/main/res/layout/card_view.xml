@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cardView"
-        card_view:cardElevation="14dp"
+        card_view:cardElevation="20dp"
         card_view:contentPadding="0dp"
         android:layout_marginLeft="1dp"
         android:layout_marginRight="1dp"

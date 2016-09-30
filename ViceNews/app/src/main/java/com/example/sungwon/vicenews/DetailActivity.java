@@ -28,7 +28,7 @@ public class DetailActivity extends AppCompatActivity {
 
         //TODO TRANSISTION ANIMATION
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        Intent intent = new Intent();
+        Intent intent = getIntent();
 
         //WEBVIEW
         WebView webview = new WebView(this);

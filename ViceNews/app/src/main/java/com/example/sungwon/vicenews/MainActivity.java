@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String ACCOUNT_TYPE = "example.com";
     public static final String ACCOUNT = "default_account";
 
-    Account mAccount;
-    ContentResolver mResolver;
+    static Account mAccount;
+    static ContentResolver mResolver;
 
     private final NewsContentObserver contentObserver = new NewsContentObserver(new Handler());
 
@@ -347,35 +347,39 @@ public class MainActivity extends AppCompatActivity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 //            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            Cursor dummycursor = null;
+            Cursor dummycursor = getActivity().getContentResolver().query(NewsContentProvider.CONTENT_POPULAR_URI_FULL,null,null,null,null);
             mRecyclerView = (RecyclerView) rootView.findViewById(recyclerView);
             mRecyclerView.setHasFixedSize(true);
             mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(mLayoutManager);
+            final Bundle settingsBundle = new Bundle();
+            settingsBundle.putBoolean(
+                    ContentResolver.SYNC_EXTRAS_MANUAL, true);
             //TODO INSERT METHODS FOR SWIPE TO REFRESH
-//            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//                @Override
-//                public void onRefresh() {
-//                    refreshItems();
-//                }
-//
-//                void refreshItems() {
-//                    // Load items
-//                    // Load complete
-//                    onItemsLoadComplete();
-//                }
-//
-//                void onItemsLoadComplete() {
-//                    // Update the adapter and notify data set changed
-//                    // Stop refresh animation
-//                    mSwipeRefreshLayout.setRefreshing(false);
-//                }
-//            });
-//            // Configure the refreshing colors
-//            mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-//                    android.R.color.holo_green_light,
-//                    android.R.color.holo_orange_light,
-//                    android.R.color.holo_red_light);
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    refreshItems();
+                    getActivity().getContentResolver().requestSync(mAccount, AUTHORITY, settingsBundle);
+                }
+
+                void refreshItems() {
+                    // Load items
+                    // Load complete
+                    onItemsLoadComplete();
+                }
+
+                void onItemsLoadComplete() {
+                    // Update the adapter and notify data set changed
+                    // Stop refresh animation
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            });
+            // Configure the refreshing colors
+            mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light);
 
 //        public void fetchTimelineAsync(int page) {
 //            // Send the network request to fetch the updated data
