@@ -2,6 +2,9 @@ package com.example.sungwon.vicenews;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -23,6 +26,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -158,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
          */
         public NewsContentObserver(Handler handler) {
             super(handler);
+
         }
 
         @Override
@@ -173,29 +178,28 @@ public class MainActivity extends AppCompatActivity {
             bundle.putString("page", frag.getURLEndpoint());
 
             mResolver.requestSync(mAccount, AUTHORITY, bundle);
-            bigPictureNotification();
 
+            notification();
 
             String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
             Log.d(TAG, "Last updated: "+currentDateTimeString);
         }
     }
     //NOTIFICATION
-    private void bigPictureNotification (){
+    private void notification (){
 
-//        Intent intent = new Intent(this, MainActivity.class);
-//
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-//        builder.setSmallIcon(R.drawable.fire);
-//        builder.setContentTitle("title");
-//        builder.setContentText("description");
-//        builder.setAutoCancel(true);
-//        builder.setStyle(bigPictureStyle);
-//        builder.setContentIntent(pendingIntent);
-//        builder.setPriority(Notification.PRIORITY_MAX);
-//        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        manager.notify(NOTIFICATION, builder.build());
+        Intent intent = new Intent(this, MainActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSmallIcon(R.drawable.fire);
+        builder.setContentTitle("Vice News");
+        builder.setContentText("Updated with new articles!");
+        builder.setAutoCancel(true);
+        builder.setContentIntent(pendingIntent);
+        builder.setPriority(Notification.PRIORITY_MAX);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(NOTIFICATION, builder.build());
     }
 
     @Override
@@ -246,9 +250,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    
-  
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -336,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+
             Cursor dummycursor = getActivity().getContentResolver().query(NewsContentProvider.CONTENT_POPULAR_URI_FULL,null,null,null,null);
             mRecyclerView = (RecyclerView) rootView.findViewById(recyclerView);
             mRecyclerView.setHasFixedSize(true);
@@ -345,52 +346,6 @@ public class MainActivity extends AppCompatActivity {
             final Bundle settingsBundle = new Bundle();
             settingsBundle.putBoolean(
                     ContentResolver.SYNC_EXTRAS_MANUAL, true);
-            //TODO INSERT METHODS FOR SWIPE TO REFRESH
-            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    refreshItems();
-                    getActivity().getContentResolver().requestSync(mAccount, AUTHORITY, settingsBundle);
-                }
-
-                void refreshItems() {
-                    // Load items
-                    // Load complete
-                    onItemsLoadComplete();
-                }
-
-                void onItemsLoadComplete() {
-                    // Update the adapter and notify data set changed
-                    // Stop refresh animation
-                    mSwipeRefreshLayout.setRefreshing(false);
-                }
-            });
-            // Configure the refreshing colors
-            mSwipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                    android.R.color.holo_green_light,
-                    android.R.color.holo_orange_light,
-                    android.R.color.holo_red_light);
-
-//        public void fetchTimelineAsync(int page) {
-//            // Send the network request to fetch the updated data
-//            // `client` here is an instance of Android Async HTTP
-//            client.getHomeTimeline(0, new JsonHttpResponseHandler() {
-//                public void onSuccess(JSONArray json) {
-//                    // Remember to CLEAR OUT old items before appending in the new ones
-//                    adapter.clear();
-//                    // ...the data has come back, add new items to your adapter...
-//                    adapter.addAll(...);
-//                    // Now we call setRefreshing(false) to signal refresh has finished
-//                    swipeContainer.setRefreshing(false);
-//                }
-//
-//                public void onFailure(Throwable e) {
-//                    Log.d("DEBUG", "Fetch timeline error: " + e.toString());
-//                }
-//            });
-
-
-
 
 
                 mAdapter = new RecyclerViewAdapter(getContext(), dummycursor);
