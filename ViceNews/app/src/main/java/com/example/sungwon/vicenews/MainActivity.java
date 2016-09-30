@@ -364,8 +364,8 @@ public class MainActivity extends AppCompatActivity {
 //                    textView.setText(latest);
                     fragChangeCursor();
                     break;
-                case(3):
-                    /* mostly for shared pref and settings*/
+                case(3):/* mostly for shared pref and settings*/
+                    String category = "getlatest/category/";
 //                    textView.setText("custom");
                     fragChangeCursor();
                     break;
@@ -388,8 +388,8 @@ public class MainActivity extends AppCompatActivity {
                     cursor = getActivity().getContentResolver().query(NewsContentProvider.CONTENT_RECENT_URI_FULL,null,null,null,null);
                     mAdapter.changeCursor(cursor);
                     break;
-                case(3):
-                    /* mostly for shared pref*/
+                case(3):/* mostly for shared pref*/
+                    cursor = getActivity().getContentResolver().query(NewsContentProvider.CONTENT_CATEGORY_URI_FULL,null,null,null,null);
                     mAdapter.changeCursor(cursor);
                     break;
             }
@@ -406,6 +406,7 @@ public class MainActivity extends AppCompatActivity {
                     endpoint = "getlatest/";
                     break;
                 case(3):
+                    endpoint = "getlatest/category/";
                     break;
             }
             return endpoint;
@@ -414,10 +415,10 @@ public class MainActivity extends AppCompatActivity {
     private void loadPreferences(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        boolean isBackgroundDark = sharedPreferences.getBoolean("background_color", true);
+        boolean isBackgroundDark = sharedPreferences.getBoolean("background_color", false);
         if(isBackgroundDark){
             CoordinatorLayout mainLayout = (CoordinatorLayout) findViewById(R.id.main_content);
-            mainLayout.setBackgroundColor(Color.parseColor("#000000"));
+            mainLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
 
     }
