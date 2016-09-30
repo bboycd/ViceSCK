@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,17 +28,22 @@ public class DetailActivity extends AppCompatActivity {
 
 
         //TODO TRANSISTION ANIMATION
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        Intent intent = new Intent();
+//        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        Intent intent = getIntent();
 
         //WEBVIEW
-        WebView webview = new WebView(this);
+        WebView webview;
+        webview = (WebView)findViewById(R.id.webview);
         String title = intent.getStringExtra("title");
         String html = intent.getStringExtra("body");
         String url = intent.getStringExtra("image");
-        setContentView(webview);
-        webview.loadData(html, "text/html", null);
-        Picasso.with(DetailActivity.this).load(url).fit();
+//        webview.getSettings().setLoadWithOverviewMode(true);
+//        webview.getSettings().setUseWideViewPort(true);
+//        webview.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+//        webview.setScrollbarFadingEnabled(false);
+        webview.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        webview.loadData(html, null, null);
+        Picasso.with(DetailActivity.this).load(url).fit().into(mImageView);
         mTitleText.setText(title);
 
 //        FloatingActionButton fab_share = (FloatingActionButton) findViewById(R.id.fab_share);
