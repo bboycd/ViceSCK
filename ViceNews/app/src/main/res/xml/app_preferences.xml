@@ -18,11 +18,6 @@
             <!--android:summary="Top/Custom"-->
             <!--android:defaultValue="true" />-->
 
-        <SwitchPreference
-            android:title="Captions"
-            android:key="captions_switch"
-            android:summary="Verbose/Simple"
-            android:defaultValue="true"/>
 
     </PreferenceCategory>
 
@@ -36,10 +31,16 @@
             android:defaultValue="true"/>
 
         <SwitchPreference
-            android:title="Theme"
-            android:key="background_switch"
-            android:summary="Dark/Light Theme"
+            android:title="Captions"
+            android:key="captions_switch"
+            android:summary="Verbose/Simple"
             android:defaultValue="true"/>
+
+        <!--<SwitchPreference-->
+            <!--android:title="Theme"-->
+            <!--android:key="background_switch"-->
+            <!--android:summary="Dark/Light Theme"-->
+            <!--android:defaultValue="true"/>-->
 
     </PreferenceCategory>
 </PreferenceScreen>
