@@ -1,6 +1,10 @@
 ![VICE](https://upload-assets.vice.com/files/2016/02/26/1456516814vice_logo.png)
+![](Screenshot(14).png)
+![](prototype.png)
+![](prototype1.png)
+![](prototypesetings.jpg)
 
-##Chris Rohr !!!!!
+##Chris Rohr 
 
 ##Sung Won "Sungzors" Chun
 
