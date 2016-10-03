@@ -12,12 +12,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class ViceDBHelper extends SQLiteOpenHelper{
     //instantiating database
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "ViceNews.db";
     //instantiating columns in database
     public static final String DATABASE_TABLE_NAME_LATEST = "getlatest";
     public static final String DATABASE_TABLE_NAME_POPULAR = "getmostpopular";
-    public static final String DATABASE_TABLE_NAME_CATEGORY = "getcategory";
+    public static final String DATABASE_TABLE_NAME_CATEGORY = "category";
     public static final String VICENEWS_COLUMN_ID = "_id";
     public static final String VICENEWS_TITLE = "title";
     public static final String VICENEWS_AUTHOR = "author";

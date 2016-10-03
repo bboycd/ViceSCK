@@ -6,21 +6,18 @@
 
     <!-- Strings related to Settings -->
     <string-array name="category_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
+        <item>news</item>
+        <item>music</item>
+        <item>fashion</item>
+        <item>travel</item>
+        <item>sports</item>
+        <item>health</item>
+        <item>impact</item>
+        <item>tech</item>
+        <item>food</item>
+        <item>gaming</item>
     </string-array>
     <string-array name="category_titles">
-        <item>Latest</item>
         <item>News</item>
         <item>Music</item>
         <item>Fashion</item>
@@ -31,10 +28,9 @@
         <item>Tech</item>
         <item>Food</item>
         <item>Gaming</item>
-        <item>NSFW</item>
     </string-array>
     <string-array name="category_defaults">
-        <item>0</item>
+        <item>news</item>
     </string-array>
 
     <string name="title_activity_detail">DetailActivity</string>

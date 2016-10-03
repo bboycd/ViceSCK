@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     static ContentResolver mResolver;
     private final NewsContentObserver contentObserver = new NewsContentObserver(new Handler());
     static int spanCount = 1;
+    static String catName = "latest";
 
     public static final int NOTIFICATION = 1;
 
@@ -93,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
         mAccount = createSyncAccount(this);
 
         getContentResolver().registerContentObserver(NewsContentProvider.CONTENT_RECENT_URI,true,contentObserver);
+        Bundle bundle = new Bundle();
+        bundle.putString("page", catName);
+
+        ContentResolver.requestSync(mAccount, AUTHORITY, bundle);
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(
                 ContentResolver.SYNC_EXTRAS_MANUAL, true);
@@ -174,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
             //sends setting values to resolver
             Bundle bundle = new Bundle();
-            bundle.putString("page", frag.getURLEndpoint());
+            bundle.putString("page", catName);
 
             mResolver.requestSync(mAccount, AUTHORITY, bundle);
 
@@ -413,6 +418,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void loadPreferences(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        sharedPreferences.edit().putString("select_categories", "sports").apply();
 
         boolean isBackgroundDark = sharedPreferences.getBoolean("background_switch", false);
         if(isBackgroundDark){
@@ -423,6 +429,8 @@ public class MainActivity extends AppCompatActivity {
         if(changeCards){
             spanCount = 2;
         }
+
+
         //TODO Make Sync Settings Preference
     }
 }
