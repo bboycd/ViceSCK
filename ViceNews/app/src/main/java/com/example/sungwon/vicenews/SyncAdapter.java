@@ -6,8 +6,10 @@ import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -52,13 +54,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
         Log.d(SyncAdapter.class.getName(), "Starting Sync");
-        String page = bundle.getString("page");
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String page = sp.getString("select_categories", "news");
         mContentResolver.delete(NewsContentProvider.CONTENT_POPULAR_URI_FULL, null, null);
         mContentResolver.delete(NewsContentProvider.CONTENT_RECENT_URI_FULL, null, null);
         mContentResolver.delete(NewsContentProvider.CONTENT_CATEGORY_URI_FULL, null, null);
         getPopularArticles();
         getRecentArticles();
-        getCategoryArticles();
+        getCategoryArticles(page);
     }
 
     private void getRecentArticles() {
@@ -130,14 +133,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                     }
                 });
     }
-    private void getCategoryArticles() {
+    private void getCategoryArticles(String cat) {
 //        categoryPreferences();
         final Gson gson = new Gson();
         String data = null;
 
         SyncHttpClient client = new SyncHttpClient();
 
-        client.get("http://vice.com/api/getlatest/category/news/0", null,
+        client.get("http://vice.com/api/getlatest/category/" + cat, null,
                 new TextHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {

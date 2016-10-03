@@ -12,13 +12,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -39,6 +37,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -57,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     static ContentResolver mResolver;
     private final NewsContentObserver contentObserver = new NewsContentObserver(new Handler());
     static int spanCount = 1;
+    static String catName = "latest";
 
     public static final int NOTIFICATION = 1;
 
@@ -93,6 +93,18 @@ public class MainActivity extends AppCompatActivity {
         mAccount = createSyncAccount(this);
 
         getContentResolver().registerContentObserver(NewsContentProvider.CONTENT_RECENT_URI,true,contentObserver);
+        Bundle bundle = new Bundle();
+        bundle.putString("page", catName);
+        ImageView background = (ImageView)findViewById(R.id.background);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+//        boolean backswitch = sp.getBoolean("background_switch", true);
+//        if(backswitch){
+//            Picasso.with(MainActivity.this).load(R.drawable.whitevice).fit().into(background);
+////            View view = this.getWindow().getDecorView();
+////            view.setBackgroundColor(0x000000);
+//        }
+
+        ContentResolver.requestSync(mAccount, AUTHORITY, bundle);
         Bundle settingsBundle = new Bundle();
         settingsBundle.putBoolean(
                 ContentResolver.SYNC_EXTRAS_MANUAL, true);
@@ -174,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
 
             //sends setting values to resolver
             Bundle bundle = new Bundle();
-            bundle.putString("page", frag.getURLEndpoint());
+            bundle.putString("page", catName);
 
             mResolver.requestSync(mAccount, AUTHORITY, bundle);
 
@@ -374,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public void fragChangeCursor(){
-            Cursor cursor = null;
+            Cursor cursor = getActivity().getContentResolver().query(NewsContentProvider.CONTENT_POPULAR_URI_FULL,null,null,null,null);;
             switch (mPage){
                 case(1)://top
                     String top = "getmostpopular/";
@@ -392,7 +404,6 @@ public class MainActivity extends AppCompatActivity {
                     mAdapter.changeCursor(cursor);
                     break;
             }
-            mAdapter.changeCursor(cursor);
         }
 
         public String getURLEndpoint(){
@@ -413,16 +424,17 @@ public class MainActivity extends AppCompatActivity {
     }
     private void loadPreferences(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        sharedPreferences.edit().putString("select_categories", "sports").apply();
 
-        boolean isBackgroundDark = sharedPreferences.getBoolean("background_switch", false);
-        if(isBackgroundDark){
-            CoordinatorLayout mainLayout = (CoordinatorLayout) findViewById(R.id.main_content);
-            mainLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        }
+//        boolean isBackgroundDark = sharedPreferences.getBoolean("background_switch", true);
+//        if(isBackgroundDark){
+//            CoordinatorLayout mainLayout = (CoordinatorLayout) findViewById(R.id.main_content);
+//            mainLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+//        }
         boolean changeCards = sharedPreferences.getBoolean("view_switch", false);
-        if(changeCards){
-            spanCount = 2;
-        }
+        spanCount = (changeCards)? 1:2;
+
+
         //TODO Make Sync Settings Preference
     }
 }

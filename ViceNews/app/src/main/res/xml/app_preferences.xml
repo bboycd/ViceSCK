@@ -3,7 +3,7 @@
     <PreferenceCategory
         android:title="General">
 
-        <MultiSelectListPreference
+        <ListPreference
             android:title="Categories"
             android:key="select_categories"
             android:summary="Select your favorite categories"
@@ -12,17 +12,12 @@
             android:entryValues="@array/category_values"
             />
 
-        <SwitchPreference
-            android:title="Default"
-            android:key="default_switch"
-            android:summary="Top/Custom"
-            android:defaultValue="true" />
+        <!--<SwitchPreference-->
+            <!--android:title="Default"-->
+            <!--android:key="default_switch"-->
+            <!--android:summary="Top/Custom"-->
+            <!--android:defaultValue="true" />-->
 
-        <SwitchPreference
-            android:title="Captions"
-            android:key="captions_switch"
-            android:summary="Verbose/Simple"
-            android:defaultValue="true"/>
 
     </PreferenceCategory>
 
@@ -36,10 +31,16 @@
             android:defaultValue="true"/>
 
         <SwitchPreference
-            android:title="Theme"
-            android:key="background_switch"
-            android:summary="Dark/Light Theme"
+            android:title="Captions"
+            android:key="captions_switch"
+            android:summary="Verbose/Simple"
             android:defaultValue="true"/>
+
+        <!--<SwitchPreference-->
+            <!--android:title="Theme"-->
+            <!--android:key="background_switch"-->
+            <!--android:summary="Dark/Light Theme"-->
+            <!--android:defaultValue="true"/>-->
 
     </PreferenceCategory>
 </PreferenceScreen>
