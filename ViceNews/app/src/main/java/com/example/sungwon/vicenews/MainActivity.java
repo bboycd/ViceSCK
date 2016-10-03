@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getName();
     public static final String AUTHORITY = "com.example.sungwon.vicenews.NewsContentProvider";
-    public static final String ACCOUNT_TYPE = "example.com";
+    public static final String ACCOUNT_TYPE = "com.example.sungwon.vicenews";
     public static final String ACCOUNT = "default_account";
 
     static Account mAccount;
