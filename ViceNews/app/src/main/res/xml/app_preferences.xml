@@ -28,13 +28,13 @@
             android:title="View Style"
             android:key="view_switch"
             android:summary="Box/Panel"
-            android:defaultValue="true"/>
+            android:defaultValue="false"/>
 
         <SwitchPreference
             android:title="Captions"
             android:key="captions_switch"
             android:summary="Verbose/Simple"
-            android:defaultValue="true"/>
+            android:defaultValue="false"/>
 
         <!--<SwitchPreference-->
             <!--android:title="Theme"-->

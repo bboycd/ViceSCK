@@ -73,8 +73,8 @@ public class RecyclerViewAdapter extends CursorRecyclerViewAdapter<RecyclerViewA
         boolean simple = sp.getBoolean("captions_switch", true);
         boolean viewswitch = sp.getBoolean("view_switch", true);
         int substrval = (viewswitch)? 40: 20;
-        if (simple||text.length()>=substrval) {text = text.substring(0,substrval+1) + "...";}
-        viewHolder.textView.setText(text);
+        String newtext = (simple&&text.length()>substrval)? text.substring(0,substrval) + "...":text;
+        viewHolder.textView.setText(newtext);
 //        viewHolder.textDetailView.setText(cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_BODY)));
         //TODO: WILL THIS WORK?
         Picasso.with(context).load(cursor.getString(cursor.getColumnIndex(ViceDBHelper.VICENEWS_THUMBNAIL))).into(viewHolder.imageView);
