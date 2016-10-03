@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
     static Account mAccount;
     static ContentResolver mResolver;
-
     private final NewsContentObserver contentObserver = new NewsContentObserver(new Handler());
+    static int spanCount = 1;
 
     public static final int NOTIFICATION = 1;
 
@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        loadPreferences();
         super.onCreate(savedInstanceState);
-
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
 
             TransitionSet transition = new TransitionSet();
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 mAccount,
                 AUTHORITY,
                 Bundle.EMPTY,
-                3000);//set the time
+                3000);//set the time         //TODO SYNC SETTING: value is in seconds, 3599 is max
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        loadPreferences();
     }
 
     @Override
@@ -341,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
             Cursor dummycursor = getActivity().getContentResolver().query(NewsContentProvider.CONTENT_POPULAR_URI_FULL,null,null,null,null);
             mRecyclerView = (RecyclerView) rootView.findViewById(recyclerView);
             mRecyclerView.setHasFixedSize(true);
-            mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            mLayoutManager = new StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL); //TODOne make setting to change columns
             mRecyclerView.setLayoutManager(mLayoutManager);
             final Bundle settingsBundle = new Bundle();
             settingsBundle.putBoolean(
@@ -364,8 +363,8 @@ public class MainActivity extends AppCompatActivity {
 //                    textView.setText(latest);
                     fragChangeCursor();
                     break;
-                case(3):
-                    /* mostly for shared pref and settings*/
+                case(3):/* mostly for shared pref and settings*/
+                    String category = "getlatest/category/";
 //                    textView.setText("custom");
                     fragChangeCursor();
                     break;
@@ -388,8 +387,8 @@ public class MainActivity extends AppCompatActivity {
                     cursor = getActivity().getContentResolver().query(NewsContentProvider.CONTENT_RECENT_URI_FULL,null,null,null,null);
                     mAdapter.changeCursor(cursor);
                     break;
-                case(3):
-                    /* mostly for shared pref*/
+                case(3):/* mostly for shared pref*/
+                    cursor = getActivity().getContentResolver().query(NewsContentProvider.CONTENT_CATEGORY_URI_FULL,null,null,null,null);
                     mAdapter.changeCursor(cursor);
                     break;
             }
@@ -406,6 +405,7 @@ public class MainActivity extends AppCompatActivity {
                     endpoint = "getlatest/";
                     break;
                 case(3):
+                    endpoint = "getlatest/category/";
                     break;
             }
             return endpoint;
@@ -414,11 +414,15 @@ public class MainActivity extends AppCompatActivity {
     private void loadPreferences(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        boolean isBackgroundDark = sharedPreferences.getBoolean("background_color", true);
+        boolean isBackgroundDark = sharedPreferences.getBoolean("background_switch", false);
         if(isBackgroundDark){
             CoordinatorLayout mainLayout = (CoordinatorLayout) findViewById(R.id.main_content);
-            mainLayout.setBackgroundColor(Color.parseColor("#000000"));
+            mainLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
-
+        boolean changeCards = sharedPreferences.getBoolean("view_switch", false);
+        if(changeCards){
+            spanCount = 2;
+        }
+        //TODO Make Sync Settings Preference
     }
 }

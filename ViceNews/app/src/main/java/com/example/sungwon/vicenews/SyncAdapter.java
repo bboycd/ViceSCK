@@ -55,8 +55,10 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         String page = bundle.getString("page");
         mContentResolver.delete(NewsContentProvider.CONTENT_POPULAR_URI_FULL, null, null);
         mContentResolver.delete(NewsContentProvider.CONTENT_RECENT_URI_FULL, null, null);
+        mContentResolver.delete(NewsContentProvider.CONTENT_CATEGORY_URI_FULL, null, null);
         getPopularArticles();
         getRecentArticles();
+        getCategoryArticles();
     }
 
     private void getRecentArticles() {
@@ -124,6 +126,43 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                             values.put("thumbnail", details.getThumb());
                             mContentResolver.insert(NewsContentProvider.CONTENT_POPULAR_URI_FULL, values);
                             if (i>19){Log.d(TAG, "Story Added: "+details.getTitle());}
+                        }
+                    }
+                });
+    }
+    private void getCategoryArticles() {
+//        categoryPreferences();
+        final Gson gson = new Gson();
+        String data = null;
+
+        SyncHttpClient client = new SyncHttpClient();
+
+        client.get("http://vice.com/api/getlatest/category/news/0", null,
+                new TextHttpResponseHandler() {
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                        Log.d(TAG, "TextHttpResponseHandler failed");
+                    }
+
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, String data) {
+                        SearchResult result = gson.fromJson(data, SearchResult.class);
+                        NewsItem newsItemArray = result.data;
+                        ContentValues values = new ContentValues();
+//            values.put()
+//            TODOne: do value put based on db
+                        for (int i = 0; i < newsItemArray.getItems().length; i++) {
+                            NewsDetail details = newsItemArray.getItems()[i];
+                            values.put("title", details.getTitle());
+                            values.put("author", details.getAuthor());
+                            values.put("body", details.getBody());
+                            values.put("preview", details.getPreview());
+                            values.put("category", details.getCategory());
+                            values.put("thumbnail", details.getThumb());
+                            mContentResolver.insert(NewsContentProvider.CONTENT_CATEGORY_URI_FULL, values);
+                            if (i > 19) {
+                                Log.d(TAG, "Story Added: " + details.getTitle());
+                            }
                         }
                     }
                 });

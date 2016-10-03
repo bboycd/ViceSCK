@@ -12,11 +12,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class ViceDBHelper extends SQLiteOpenHelper{
     //instantiating database
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "ViceNews.db";
     //instantiating columns in database
     public static final String DATABASE_TABLE_NAME_LATEST = "getlatest";
     public static final String DATABASE_TABLE_NAME_POPULAR = "getmostpopular";
+    public static final String DATABASE_TABLE_NAME_CATEGORY = "getcategory";
     public static final String VICENEWS_COLUMN_ID = "_id";
     public static final String VICENEWS_TITLE = "title";
     public static final String VICENEWS_AUTHOR = "author";
@@ -50,6 +51,18 @@ public class ViceDBHelper extends SQLiteOpenHelper{
                     VICENEWS_THUMBNAIL + " TEXT )";
     public static final String SQL_DROP_VICENEWS_TABLE_POPULAR = "DROP TABLE IF EXISTS "+ DATABASE_TABLE_NAME_POPULAR;
 
+    public static final String SQL_CREATE_VICENEWS_TABLE_CATEGORY =
+            "CREATE TABLE " + DATABASE_TABLE_NAME_CATEGORY +
+                    "( " +
+                    VICENEWS_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    VICENEWS_TITLE + " TEXT," +
+                    VICENEWS_AUTHOR + " TEXT," +
+                    VICENEWS_BODY + " TEXT," +
+                    VICENEWS_PREVIEW + " TEXT," +
+                    VICENEWS_CATEGORY + " TEXT," +
+                    VICENEWS_THUMBNAIL + " TEXT )";
+    public static final String SQL_DROP_VICENEWS_TABLE_CATEGORY = "DROP TABLE IF EXISTS "+ DATABASE_TABLE_NAME_CATEGORY;
+
     //creating as Singleton class
     private static ViceDBHelper instance;
 
@@ -69,12 +82,14 @@ public class ViceDBHelper extends SQLiteOpenHelper{
         //creating table
         db.execSQL(SQL_CREATE_VICENEWS_TABLE_LATEST);
         db.execSQL(SQL_CREATE_VICENEWS_TABLE_POPULAR);
+        db.execSQL(SQL_CREATE_VICENEWS_TABLE_CATEGORY);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DROP_VICENEWS_TABLE_LATEST);
         db.execSQL(SQL_DROP_VICENEWS_TABLE_POPULAR);
+        db.execSQL(SQL_DROP_VICENEWS_TABLE_CATEGORY);
         onCreate(db);
     }
 
@@ -89,6 +104,11 @@ public class ViceDBHelper extends SQLiteOpenHelper{
         long insertedRowPopular = db.insert(DATABASE_TABLE_NAME_POPULAR, null, values);
         return insertedRowPopular;
     }
+    public long addArticleCategory(ContentValues values) {
+        SQLiteDatabase db = getWritableDatabase();
+        long insertedRowCategory = db.insert(DATABASE_TABLE_NAME_CATEGORY, null, values);
+        return insertedRowCategory;
+    }
 
     public int deleteAllArticlesLatest() {
         SQLiteDatabase db = getWritableDatabase();
@@ -100,6 +120,11 @@ public class ViceDBHelper extends SQLiteOpenHelper{
         int rowsDeleted = db.delete(DATABASE_TABLE_NAME_POPULAR,null,null);
         return rowsDeleted;
     }
+    public int deleteAllArticlesCategory() {
+        SQLiteDatabase db = getWritableDatabase();
+        int rowsDeleted = db.delete(DATABASE_TABLE_NAME_CATEGORY, null, null);
+        return rowsDeleted;
+    }
 
     public Cursor getRecentArticles(String selection, String[] selectionArgs) {
         SQLiteDatabase db = getReadableDatabase();
@@ -109,6 +134,11 @@ public class ViceDBHelper extends SQLiteOpenHelper{
     public Cursor getPopularArticles(String selection, String[] selectionArgs) {
         SQLiteDatabase db = getReadableDatabase();
         Cursor cursor = db.query(DATABASE_TABLE_NAME_POPULAR,VICENEWS_COLUMNS,selection,selectionArgs,null,null,null);
+        return cursor;
+    }
+    public Cursor getCategoryArticles(String selection, String[] selectionArgs) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.query(DATABASE_TABLE_NAME_CATEGORY,VICENEWS_COLUMNS,selection,selectionArgs,null,null,null);
         return cursor;
     }
 
@@ -123,6 +153,13 @@ public class ViceDBHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = getReadableDatabase();
 
         Cursor cursor = db.query(DATABASE_TABLE_NAME_POPULAR,VICENEWS_COLUMNS,VICENEWS_COLUMN_ID +" = ?", new String[]{id}, null, null, null);
+
+        return cursor;
+    }
+    public Cursor getArticlesByIdCategory(String id){
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.query(DATABASE_TABLE_NAME_CATEGORY,VICENEWS_COLUMNS,VICENEWS_COLUMN_ID +" = ?", new String[]{id}, null, null, null);
 
         return cursor;
     }
@@ -146,6 +183,16 @@ public class ViceDBHelper extends SQLiteOpenHelper{
             case "popular":
 
                 scursor = db.query(DATABASE_TABLE_NAME_POPULAR,
+                        VICENEWS_COLUMNS,
+                        VICENEWS_TITLE + " LIKE ? OR " + VICENEWS_AUTHOR + " LIKE ? OR " + VICENEWS_CATEGORY + " LIKE ? ",
+                        new String[]{"%" + query + "%", "%" + query + "%", "%" + query + "%"},
+                        null,
+                        null,
+                        null);
+                break;
+            case "category":
+
+                scursor = db.query(DATABASE_TABLE_NAME_CATEGORY,
                         VICENEWS_COLUMNS,
                         VICENEWS_TITLE + " LIKE ? OR " + VICENEWS_AUTHOR + " LIKE ? OR " + VICENEWS_CATEGORY + " LIKE ? ",
                         new String[]{"%" + query + "%", "%" + query + "%", "%" + query + "%"},
@@ -180,6 +227,16 @@ public class ViceDBHelper extends SQLiteOpenHelper{
                 null);
         return dcursor;
     }
-
+    public Cursor detailsArticlesCategory(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor dcursor = db.query(DATABASE_TABLE_NAME_CATEGORY,
+                VICENEWS_COLUMNS,
+                VICENEWS_COLUMN_ID + "= ?",
+                new String[]{String.valueOf(id)},
+                null,
+                null,
+                null);
+        return dcursor;
+    }
 }
 
