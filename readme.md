@@ -1,7 +1,7 @@
 ![VICE](https://upload-assets.vice.com/files/2016/02/26/1456516814vice_logo.png)
-![](Screenshot(14).png)
+![](Screenshot (14).png)
 ![](prototype.png)
-![](prototype1.png)
+![](prototype1.jpg)
 ![](prototypesetings.jpg)
 
 ##Chris Rohr 
@@ -9,7 +9,7 @@
 ##Sung Won "Sungzors" Chun
 
 ##Kevin Oh
-###Bananananananana
+
 
 
 SuCK Corp presents...
